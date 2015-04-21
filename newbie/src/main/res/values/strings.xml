@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">newbie</string>
+    <string name="adapter_bluetooth_not_found">Não foi encontrado nenhum adaptador Bluetooth.</string>
+</resources>

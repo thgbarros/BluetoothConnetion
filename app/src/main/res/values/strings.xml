@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BluetoothConnetion</string>
+    <string name="menu_update_device">Atualizar dispositivos</string>
+    <string name="menu_options">Opções</string>
+    <string name="menu_tunOn">Habilitar bluetooth</string>
+    <string name="menu_tunOff">Desabilitar bluetooth</string>
+
+    <string name="device_not_found">Não foi encontrado nenhum dispositivo Bluetooth!</string>
+</resources>

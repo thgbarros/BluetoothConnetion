@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/menuUpdateDevice"
+        android:title="@string/menu_update_device"
+        android:icon="@android:drawable/ic_popup_sync"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menuTurnOn"
+        app:showAsAction="never"
+        android:title="@string/menu_tunOn"/>
+
+    <item
+        android:id="@+id/menuTurnOff"
+        app:showAsAction="never"
+        android:title="@string/menu_tunOff"/>
+
+
+
+</menu>
