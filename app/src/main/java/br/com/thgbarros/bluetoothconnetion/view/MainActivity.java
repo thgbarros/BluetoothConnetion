@@ -1,6 +1,7 @@
 package br.com.thgbarros.bluetoothconnetion.view;
 
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,8 +19,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
-import br.com.barros.newbie.Bluetooth.BluetoothDevice;
 import br.com.barros.newbie.Bluetooth.BluetoothManager;
 import br.com.barros.newbie.Bluetooth.BluetoothStatus;
 import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothConnectionManager;
@@ -28,9 +30,10 @@ import br.com.thgbarros.bluetoothconnetion.R;
 
 import static br.com.barros.newbie.Bluetooth.BluetoothStatus.*;
 
-
+/**
+ * created by thiago barros
+ */
 public class MainActivity extends ActionBarActivity implements OnItemClickListener {
-
     private BluetoothManager bluetoothManager;
     private BluetoothConnectionManager bluetoothConnectionManager;
     private Handler handler;
@@ -75,34 +78,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         bluetoothManager.disableBluetooth();
     }
 
-    public Handler getDefaultHandler(){
-        if (handler == null) {
-            handler = new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    updateUI(msg);
-                }
-            };
-        }
-
-        return handler;
-    }
-
-    private void loadListView(Collection<BluetoothDevice> devices) {
-        ListView listDevicePaired = (ListView) findViewById(R.id.listViewDevicesPaired);
-        ArrayAdapter<BluetoothDevice> adapter = new ArrayAdapter<BluetoothDevice>(this,
-                android.R.layout.simple_list_item_1, new ArrayList<BluetoothDevice>(devices));
-
-        listDevicePaired.setAdapter(adapter);
-
-        if (devices.size() == 0)
-            Toast.makeText(this, getString(R.string.device_not_found), Toast.LENGTH_LONG).show();
-
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -123,10 +100,46 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        List <BluetoothDevice> devicesFound = Collections.emptyList();
+        devicesFound.addAll(bluetoothManager.getDevicesFound());
+
+        BluetoothDevice device = devicesFound.get(position);
+
+        //BluetoothDevice device = (BluetoothDevice) parent.getItemAtPosition(position);
+
+        bluetoothManager.connect(device, getDefaultHandler());
+    }
+
+    public Handler getDefaultHandler(){
+        if (handler == null) {
+            handler = new Handler() {
+                public void handleMessage(Message msg) {
+                    updateUI(msg);
+                }
+            };
+        }
+        return handler;
+    }
+
+    private void loadListView(Collection<BluetoothDevice> devices) {
+        ListView listDevicePaired = (ListView) findViewById(R.id.listViewDevicesPaired);
+        ArrayAdapter<BluetoothDevice> adapter = new ArrayAdapter<BluetoothDevice>(this,
+                android.R.layout.simple_list_item_1, new ArrayList<BluetoothDevice>(devices));
+
+        listDevicePaired.setAdapter(adapter);
+
+        if (devices.size() == 0)
+            Toast.makeText(this, getString(R.string.string_device_not_found), Toast.LENGTH_LONG).show();
+
+    }
+
     private void updateUI(Message msg){
         switch (getValueOf(msg.what)){
             case DISCOVERY:
-                dialog = ProgressDialog.show(this, "Buscando dispositivos", "Por favor aguarde...", true, true);
+                dialog = ProgressDialog.show(this, getString(R.string.string_search_devices),
+                        getString(R.string.string_please_wait), true, true);
                 break;
             case DISCOVERY_FINISH:
                 dialog.dismiss();
@@ -140,12 +153,5 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             default:
                 return;
         }
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        BluetoothDevice device = (BluetoothDevice) parent.getItemAtPosition(position);
-
-        bluetoothManager.connect(device, getDefaultHandler());
     }
 }

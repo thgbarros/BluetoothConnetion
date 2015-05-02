@@ -2,13 +2,12 @@ package br.com.barros.newbie.Bluetooth;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-
-import com.example.thiago.newbie.R;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -34,7 +33,6 @@ public class BluetoothManager {
     private Activity activity;
 
     private static final int TEMPO_DE_DESCOBERTA = 30;
-    private static final int VISIVEL = 1;
 
     private BluetoothStatus bluetoothStatus = BluetoothStatus.NONE;
 
@@ -47,7 +45,7 @@ public class BluetoothManager {
         defaultAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (defaultAdapter == null)
-            throw new BluetoothException(activity.getString(R.string.adapter_bluetooth_not_found));
+            throw new BluetoothException("Não foi encontrado nenhum adaptador Bluetooth no dispositivo.");
 
         Log.d(LOG_TAG, "Adaptador bluetooth: " + defaultAdapter.getName() +
                 " no endereço: " + defaultAdapter.getAddress());
@@ -58,17 +56,15 @@ public class BluetoothManager {
         this.activity = activity;
     }
 
+    /**
+     * Habilita o bluetooth do dispositivo se o
+     * mesmo não estiver habilitado.
+     */
     public void enableBluetooth() {
         if (!defaultAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             activity.startActivityForResult(enableIntent, BluetoothStatus.ENABLED.getId());
         }
-
-        IntentFilter filterActionFound = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        IntentFilter filterDiscoveryFinished = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-
-        activity.registerReceiver(defaultReceiver, filterActionFound);
-        activity.registerReceiver(defaultReceiver, filterDiscoveryFinished);
     }
 
     public void disableBluetooth() {
@@ -78,6 +74,14 @@ public class BluetoothManager {
 
     public void startDiscovery(Handler handler) {
         devicesFound.clear();
+
+
+        IntentFilter filterActionFound = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        IntentFilter filterDiscoveryFinished = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+
+        activity.registerReceiver(defaultReceiver, filterActionFound);
+        activity.registerReceiver(defaultReceiver, filterDiscoveryFinished);
+
         defaultReceiver.setHandler(handler);
         defaultReceiver.clearListDevicesFound();
 

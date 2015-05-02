@@ -17,7 +17,7 @@ import java.util.Set;
  * Created by thiagobarros on 06/04/15.
  */
 public class BluetoothReceiver extends BroadcastReceiver {
-    private Set<br.com.barros.newbie.Bluetooth.BluetoothDevice> devices;
+    private Set<BluetoothDevice> devices;
     private Handler handler;
 
     private static final String LOG_TAG = BluetoothReceiver.class.getSimpleName();
@@ -33,10 +33,9 @@ public class BluetoothReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (BluetoothDevice.ACTION_FOUND.equals(intent.getAction())) {
-            br.com.barros.newbie.Bluetooth.BluetoothDevice device =
-                    new br.com.barros.newbie.Bluetooth.BluetoothDevice((BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE));
+            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             devices.add(device);
-            Log.d(LOG_TAG, "Device encontrado  [" + device + "]");
+            Log.d(LOG_TAG, "Device encontrado  [" + device.getName() + "]");
         } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(intent.getAction())) {
             Log.d(LOG_TAG, "Discovery terminado, foram encontrados: [" + devices.size() + " device(s)]");
             Message message = new Message();
@@ -49,7 +48,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
         devices.clear();
     }
 
-    public Collection<br.com.barros.newbie.Bluetooth.BluetoothDevice> getDevicesFound() {
+    public Collection<BluetoothDevice> getDevicesFound() {
         return new HashSet<>(devices);
     }
 }
