@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:text="@string/label_devices_available"
+                android:padding="@dimen/item_padding_3dp"/>
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/listViewDevices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayoutTitle"
+            android:scrollbarAlwaysDrawHorizontalTrack="true"
+            android:scrollbars="vertical"/>
+
+    </RelativeLayout>
+</LinearLayout>

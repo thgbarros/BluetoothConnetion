@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -20,7 +23,7 @@ import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothException;
 /**
  * Created by thiagobarros on 05/04/15.
  */
-public class BluetoothManager {
+public class BluetoothManager{
     private static final UUID uuid = UUID.fromString("0bed0288-dfbf-4557-9699-0929daa7c2eb");
     private static final String LOG_TAG = BluetoothManager.class.getSimpleName();
 
@@ -41,7 +44,10 @@ public class BluetoothManager {
 
     private BluetoothConnectionManager bluetoothConnectionManager;
 
-    public BluetoothManager(Activity activity) throws BluetoothException {
+    private static BluetoothManager _instance;
+
+
+    private BluetoothManager(Activity activity) throws BluetoothException {
         defaultAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (defaultAdapter == null)
@@ -68,13 +74,20 @@ public class BluetoothManager {
     }
 
     public void disableBluetooth() {
-        activity.unregisterReceiver(defaultReceiver);
+        try {
+            activity.unregisterReceiver(defaultReceiver);
+        }catch(IllegalArgumentException e){
+            Log.d(LOG_TAG, e.getMessage());
+        }
         defaultAdapter.disable();
+    }
+
+    public boolean isEnabledBluetooth(){
+        return defaultAdapter.isEnabled();
     }
 
     public void startDiscovery(Handler handler) {
         devicesFound.clear();
-
 
         IntentFilter filterActionFound = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         IntentFilter filterDiscoveryFinished = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
@@ -85,9 +98,9 @@ public class BluetoothManager {
         defaultReceiver.setHandler(handler);
         defaultReceiver.clearListDevicesFound();
 
-        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, TEMPO_DE_DESCOBERTA);
-        activity.startActivity(discoverableIntent);
+        //Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+        //discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, TEMPO_DE_DESCOBERTA);
+        //activity.startActivity(discoverableIntent);
 
         defaultAdapter.startDiscovery();
         bluetoothStatus = BluetoothStatus.DISCOVERY;
@@ -117,7 +130,8 @@ public class BluetoothManager {
         Collection<BluetoothDevice> allDevices = new HashSet<>();
         allDevices.addAll(defaultAdapter.getBondedDevices());
         allDevices.addAll(defaultReceiver.getDevicesFound());
-        return allDevices;
+
+        return Collections.unmodifiableCollection(allDevices);
     }
 
     public BluetoothConnectionManager getBluetoothConnectionManager(Handler handler){
@@ -127,6 +141,23 @@ public class BluetoothManager {
         }
 
         return bluetoothConnectionManager;
+    }
+
+    private void setActivity(Activity activity){
+        this.activity = activity;
+    }
+
+    public static BluetoothManager getInstance(Activity activity) throws BluetoothException {
+        if (_instance == null){
+            _instance = new BluetoothManager(activity);
+        }else
+            _instance.setActivity(activity);
+
+        return _instance;
+    }
+
+    public static  BluetoothManager getInstance(){
+        return _instance;
     }
 
 //    public Handler getDefaultHandler(){

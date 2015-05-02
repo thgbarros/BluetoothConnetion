@@ -4,6 +4,8 @@ import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,14 +16,16 @@ import br.com.barros.newbie.Bluetooth.BluetoothStatus;
 /**
  * Created by thiago on 21/04/15.
  */
-public class BluetoothConnectionManager extends Thread {
+public class BluetoothConnectionManager extends Thread{
 
     private final BluetoothDevice device;
     private final BluetoothSocket socket;
     private final InputStream inputStream;
     private final OutputStream outputStream;
 
-    private final Handler handler;
+    private Handler handler;
+
+    private static BluetoothConnectionManager _instance;
 
     public BluetoothConnectionManager(BluetoothDevice device, BluetoothSocket socket, Handler handler){
         this.socket = socket;
@@ -37,6 +41,7 @@ public class BluetoothConnectionManager extends Thread {
 
         inputStream = tmpIn;
         outputStream = tmpOut;
+        _instance = this;
     }
 
     public void run() {
@@ -72,6 +77,20 @@ public class BluetoothConnectionManager extends Thread {
 
     public BluetoothDevice getDevice(){
         return device;
+    }
+
+    private void setHandler(Handler handler){
+        this.handler = handler;
+    }
+
+    public static BluetoothConnectionManager getInstance(Handler handler){
+        if (_instance != null)
+            _instance.setHandler(handler);
+        return _instance;
+    }
+
+    public static BluetoothConnectionManager getInstance(){
+        return _instance;
     }
 
 }
