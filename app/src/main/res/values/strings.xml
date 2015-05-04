@@ -12,6 +12,7 @@
 
     <string name="string_device_not_found">Nenhum dispositivo encontrado</string>
     <string name="string_search_devices">Buscando dispositivos</string>
+    <string name="string_connecting_device">Conectando ao dispositivo</string>
     <string name="string_please_wait">Por favor aguarde!</string>
 
     <!--Label titles-->
@@ -22,6 +23,7 @@
 
     <!--Exception messages-->
     <string name="string_bluetooth_manager_exception">BluetoothManager não encontrado</string>
+    <string name="label_button_forget_device">Esquecer dispositivo</string>
 
 </resources>
 

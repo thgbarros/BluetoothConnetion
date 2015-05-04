@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import br.com.barros.newbie.Bluetooth.BluetoothManager;
 import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothConnectionManager;
 import br.com.thgbarros.bluetoothconnetion.R;
 
@@ -31,6 +32,14 @@ public class SettingsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_settings);
 
         sharedPreferences = getSharedPreferences(MainActivity.PREFERENCES, Context.MODE_PRIVATE);
+
+        if (sharedPreferences.contains(PREFERENCES_BLUETOOTH_NAME)) {
+            TextView deviceConnected = (TextView) findViewById(R.id.textViewDeviceConnected);
+            String deviceName = sharedPreferences.getString(PREFERENCES_BLUETOOTH_NAME, "");
+            String deviceAddress = sharedPreferences.getString(PREFERENCES_BLUETOOTH_ADDRESS, "");
+
+            deviceConnected.setText(deviceName + "\n" + deviceAddress);
+        }
     }
 
     @Override
@@ -46,9 +55,6 @@ public class SettingsActivity extends ActionBarActivity {
                 Intent intent = new Intent(this, ListBluetoothDeviceActivity.class);
                 startActivityForResult(intent, REQUEST_CONNECT_DEVICE);
                 break;
-            case R.id.menu_reset_device:
-                break;
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -59,9 +65,10 @@ public class SettingsActivity extends ActionBarActivity {
         switch (requestCode){
             case REQUEST_CONNECT_DEVICE:
                 if (resultCode == Activity.RESULT_OK){
-                    BluetoothConnectionManager connectionManager = BluetoothConnectionManager.getInstance();
+                    BluetoothConnectionManager connectionManager = BluetoothManager.getInstance().getBluetoothConnectionManager();
                     TextView deviceConnected = (TextView) findViewById(R.id.textViewDeviceConnected);
-                    deviceConnected.setText(connectionManager.getDevice().getName());
+                    deviceConnected.setText(connectionManager.getDevice().getName() +
+                                        "\n" + connectionManager.getDevice().getAddress());
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(PREFERENCES_BLUETOOTH_NAME, connectionManager.getDevice().getName());
                     editor.putString(PREFERENCES_BLUETOOTH_ADDRESS, connectionManager.getDevice().getAddress());

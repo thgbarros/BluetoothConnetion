@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -26,8 +27,11 @@ public class BluetoothAccept extends Thread {
        this.handler = handler;
        BluetoothServerSocket tmp = null;
        try {
+           Log.d(TAG_NAME, "ListenUsingInsecureRfcommWithServiceRecord on UUID[" + uuid.toString() + "]");
            tmp = adapter.listenUsingInsecureRfcommWithServiceRecord(TAG_NAME, uuid);
-       } catch (IOException e) { }
+       } catch (IOException e) {
+           Log.d(TAG_NAME, "ListenUsingInsecureRfcommWithServiceRecord ERROR[" + e.getMessage() + "]");
+       }
 
        this.severSocket = tmp;
    }
@@ -36,8 +40,11 @@ public class BluetoothAccept extends Thread {
        BluetoothSocket socket = null;
        while (true) {
            try {
+               Log.d(TAG_NAME, "Trying socket accept");
                socket = severSocket.accept();
+               Log.d(TAG_NAME, "Socket accept");
            } catch (IOException e) {
+               Log.d(TAG_NAME, "Socket not accept");
                break;
            }
            if (socket != null) {

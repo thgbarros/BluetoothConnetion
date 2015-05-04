@@ -18,13 +18,18 @@ public class MainActivity extends ActionBarActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    private BluetoothConnectionManager bluetoothConnectionManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Intent start = new Intent(this, SettingsActivity.class);
         startActivity(start);
+    }
+
+    @Override
+    protected void onDestroy() {
+        BluetoothManager.getInstance().disableBluetooth();
+        super.onDestroy();
+
     }
 }

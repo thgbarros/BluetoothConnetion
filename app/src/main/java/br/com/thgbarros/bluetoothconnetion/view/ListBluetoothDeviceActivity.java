@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,9 +34,9 @@ import static br.com.barros.newbie.Bluetooth.BluetoothStatus.*;
  */
 public class ListBluetoothDeviceActivity extends ActionBarActivity implements OnItemClickListener {
     private BluetoothManager bluetoothManager;
-    private BluetoothConnectionManager bluetoothConnectionManager;
     private Handler handler;
     private ProgressDialog dialog = null;
+    private BluetoothDevice deviceSelected;
 
     private static final String LOG_TAG = ListBluetoothDeviceActivity.class.getSimpleName();
 
@@ -44,15 +45,14 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_bluetooth_device);
 
-        setTitle(getTitle() + " - Dispositivos bluetooth");
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         try {
             bluetoothManager = BluetoothManager.getInstance(this);
-            if (bluetoothManager.isEnabledBluetooth())
+            if (!bluetoothManager.isEnabledBluetooth())
+                bluetoothManager.enableBluetooth();
+            else
                 bluetoothManager.startDiscovery(getDefaultHandler());
-
         } catch (BluetoothException be) {
             Log.d(LOG_TAG, be.getMessage());
             be.printStackTrace();
@@ -68,7 +68,7 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (BluetoothStatus.getValueOf(requestCode) == BluetoothStatus.ENABLED){
-            loadListView(bluetoothManager.getDevicesFound());
+            bluetoothManager.startDiscovery(getDefaultHandler());
             return;
         }
 
@@ -78,7 +78,6 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        bluetoothManager.disableBluetooth();
     }
 
     @Override
@@ -113,11 +112,12 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         List<BluetoothDevice> devicesFound = new ArrayList<>(bluetoothManager.getDevicesFound());
 
-        BluetoothDevice device = devicesFound.get(position);
+        deviceSelected = devicesFound.get(position);
 
-        //BluetoothDevice device = (BluetoothDevice) parent.getItemAtPosition(position);
+        dialog = ProgressDialog.show(this, getString(R.string.string_connecting_device),
+                getString(R.string.string_please_wait), true, true);
 
-        bluetoothManager.connect(device, getDefaultHandler());
+        bluetoothManager.connect(deviceSelected, getDefaultHandler());
     }
 
     public Handler getDefaultHandler(){
@@ -142,7 +142,6 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
             adapter.add(getString(R.string.string_device_not_found));
 
         listDevicePaired.setAdapter(adapter);
-
     }
 
     private void updateUI(Message msg){
@@ -156,13 +155,14 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
                 loadListView(bluetoothManager.getDevicesFound());
                 break;
             case CONNECTED:
-                //bluetoothConnectionManager = bluetoothManager.getBluetoothConnectionManager(getDefaultHandler());
-                //Toast.makeText(this, "Conectado ao " +
-                //        bluetoothConnectionManager.getDevice().getName(),
-                //        Toast.LENGTH_LONG).show();
-
+                dialog.dismiss();
                 setResult(RESULT_OK);
                 finish();
+                break;
+            case NOT_CONNECTED:
+                dialog.dismiss();
+                Toast.makeText(this, "Não foi possivel se conectar a "
+                        + deviceSelected.getName(), Toast.LENGTH_LONG).show();
                 break;
             default:
                 return;

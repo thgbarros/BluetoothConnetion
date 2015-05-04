@@ -35,8 +35,6 @@ public class BluetoothManager{
 
     private Activity activity;
 
-    private static final int TEMPO_DE_DESCOBERTA = 30;
-
     private BluetoothStatus bluetoothStatus = BluetoothStatus.NONE;
 
     private BluetoothAccept acceptSocketThread = null;
@@ -45,7 +43,6 @@ public class BluetoothManager{
     private BluetoothConnectionManager bluetoothConnectionManager;
 
     private static BluetoothManager _instance;
-
 
     private BluetoothManager(Activity activity) throws BluetoothException {
         defaultAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -60,6 +57,7 @@ public class BluetoothManager{
         devicesFound = new HashSet<>();
 
         this.activity = activity;
+        _instance = this;
     }
 
     /**
@@ -92,15 +90,21 @@ public class BluetoothManager{
         IntentFilter filterActionFound = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         IntentFilter filterDiscoveryFinished = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 
-        activity.registerReceiver(defaultReceiver, filterActionFound);
-        activity.registerReceiver(defaultReceiver, filterDiscoveryFinished);
+        boolean registerReceiverHasError = false;
+
+        do {
+            try {
+                activity.registerReceiver(defaultReceiver, filterActionFound);
+                activity.registerReceiver(defaultReceiver, filterDiscoveryFinished);
+            } catch (Exception e) {
+                registerReceiverHasError = true;
+                Log.d(LOG_TAG, "RegisterReciver error, unregister now, retrying...");
+                activity.unregisterReceiver(defaultReceiver);
+            }
+        }while (registerReceiverHasError);
 
         defaultReceiver.setHandler(handler);
         defaultReceiver.clearListDevicesFound();
-
-        //Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        //discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, TEMPO_DE_DESCOBERTA);
-        //activity.startActivity(discoverableIntent);
 
         defaultAdapter.startDiscovery();
         bluetoothStatus = BluetoothStatus.DISCOVERY;
@@ -112,8 +116,8 @@ public class BluetoothManager{
         handler.sendMessage(message);
     }
 
-    public void acceptConnection() {
-        acceptSocketThread = new BluetoothAccept(defaultAdapter, uuid, null);
+    public void acceptConnection(Handler handler) {
+        acceptSocketThread = new BluetoothAccept(defaultAdapter, uuid, handler);
         acceptSocketThread.start();
     }
 
@@ -127,19 +131,29 @@ public class BluetoothManager{
     }
 
     public Collection<BluetoothDevice> getDevicesFound() {
-        Collection<BluetoothDevice> allDevices = new HashSet<>();
-        allDevices.addAll(defaultAdapter.getBondedDevices());
-        allDevices.addAll(defaultReceiver.getDevicesFound());
+        if (devicesFound.isEmpty()) {
+            devicesFound.addAll(defaultAdapter.getBondedDevices());
+            devicesFound.addAll(defaultReceiver.getDevicesFound());
+        }
 
-        return Collections.unmodifiableCollection(allDevices);
+        return Collections.unmodifiableCollection(devicesFound);
     }
 
     public BluetoothConnectionManager getBluetoothConnectionManager(Handler handler){
         if (bluetoothConnectThread.getSocket() != null) {
-            bluetoothConnectionManager = new BluetoothConnectionManager(
-                    bluetoothConnectThread.getDevice(), bluetoothConnectThread.getSocket(), handler);
+            bluetoothConnectionManager = BluetoothConnectionManager.getInstance(
+                    bluetoothConnectThread.getDevice(), bluetoothConnectThread.getSocket());
+            bluetoothConnectionManager.setHandler(handler);
         }
+        return bluetoothConnectionManager;
+    }
 
+    public BluetoothConnectionManager getBluetoothConnectionManager(){
+        if (bluetoothConnectThread.getSocket() != null) {
+            bluetoothConnectionManager = BluetoothConnectionManager.getInstance(
+                    bluetoothConnectThread.getDevice(), bluetoothConnectThread.getSocket());
+            bluetoothConnectionManager.run();
+        }
         return bluetoothConnectionManager;
     }
 

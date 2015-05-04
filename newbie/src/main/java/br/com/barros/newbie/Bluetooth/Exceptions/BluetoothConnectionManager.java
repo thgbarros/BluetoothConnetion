@@ -27,10 +27,10 @@ public class BluetoothConnectionManager extends Thread{
 
     private static BluetoothConnectionManager _instance;
 
-    public BluetoothConnectionManager(BluetoothDevice device, BluetoothSocket socket, Handler handler){
+    private BluetoothConnectionManager(BluetoothDevice device, BluetoothSocket socket){
         this.socket = socket;
         this.device = device;
-        this.handler = handler;
+        this.handler = null;
         InputStream tmpIn = null;
         OutputStream tmpOut = null;
 
@@ -54,8 +54,10 @@ public class BluetoothConnectionManager extends Thread{
                 // Read from the InputStream
                 bytes = inputStream.read(buffer);
                 // Send the obtained bytes to the UI activity
-                handler.obtainMessage(BluetoothStatus.READ.getId(), bytes, -1, buffer)
-                        .sendToTarget();
+                if (handler != null) {
+                    handler.obtainMessage(BluetoothStatus.READ.getId(),
+                                            bytes, -1, buffer).sendToTarget();
+                }
 
             } catch (IOException e) {
                 break;
@@ -79,15 +81,16 @@ public class BluetoothConnectionManager extends Thread{
         return device;
     }
 
-    private void setHandler(Handler handler){
+    public void setHandler(Handler handler){
         this.handler = handler;
     }
 
-    public static BluetoothConnectionManager getInstance(Handler handler){
-        if (_instance != null)
-            _instance.setHandler(handler);
+    public static BluetoothConnectionManager getInstance(BluetoothDevice device, BluetoothSocket socket){
+        if (_instance == null)
+            _instance = new BluetoothConnectionManager(device, socket);
         return _instance;
     }
+
 
     public static BluetoothConnectionManager getInstance(){
         return _instance;
