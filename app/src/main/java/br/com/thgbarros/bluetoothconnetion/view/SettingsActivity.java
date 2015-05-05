@@ -65,7 +65,8 @@ public class SettingsActivity extends ActionBarActivity {
         switch (requestCode){
             case REQUEST_CONNECT_DEVICE:
                 if (resultCode == Activity.RESULT_OK){
-                    BluetoothConnectionManager connectionManager = BluetoothManager.getInstance().getBluetoothConnectionManager();
+                    BluetoothConnectionManager connectionManager =
+                            BluetoothManager.getInstance().getBluetoothConnectionManager();
                     TextView deviceConnected = (TextView) findViewById(R.id.textViewDeviceConnected);
                     deviceConnected.setText(connectionManager.getDevice().getName() +
                                         "\n" + connectionManager.getDevice().getAddress());
