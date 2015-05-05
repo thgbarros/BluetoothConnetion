@@ -29,22 +29,21 @@ public class BluetoothConnect extends Thread {
         this.adapter = adapter;
         this.handler = handler;
         this.uuid = uuid;
-//        BluetoothSocket tmp = null;
-//        try {
-//            Log.d(LOG_TAG, "CreateRfcommSocketToServiceRecord on UUID["+ uuid.toString() + "]");
-//            tmp = device.createRfcommSocketToServiceRecord(uuid);
-//        } catch (IOException e) {
-//            Log.d(LOG_TAG, "CreateRfcommSocketToServiceRecord ERROR["+ e.getMessage() + "]");
-//        }
-//
-//        this.socket = tmp;
+        BluetoothSocket tmp = null;
+        try {
+            Log.d(LOG_TAG, "CreateRfcommSocketToServiceRecord on UUID["+ uuid.toString() + "]");
+            tmp = this.device.createRfcommSocketToServiceRecord(this.uuid);
+        } catch (IOException e) {
+            Log.d(LOG_TAG, "CreateRfcommSocketToServiceRecord ERROR["+ e.getMessage() + "]");
+        }
+
+        this.socket = tmp;
     }
 
     public void run() {
+        Log.d(LOG_TAG, "Trying socket connect...");
         adapter.cancelDiscovery();
         try {
-            Log.d(LOG_TAG, "CreateRfcommSocketToServiceRecord on UUID["+ uuid.toString() + "]");
-            socket = device.createRfcommSocketToServiceRecord(uuid);
             socket.connect();
             Log.d(LOG_TAG, "Socket connected");
             bluetoothStatus = BluetoothStatus.CONNECTED;

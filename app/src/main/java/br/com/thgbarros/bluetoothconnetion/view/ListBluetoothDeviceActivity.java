@@ -77,6 +77,7 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
 
     @Override
     protected void onDestroy() {
+        bluetoothManager.destroy();
         super.onDestroy();
     }
 
@@ -152,6 +153,7 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
                 break;
             case DISCOVERY_FINISH:
                 dialog.dismiss();
+                Log.d(LOG_TAG, "DISCOVERY_FINISH");
                 loadListView(bluetoothManager.getDevicesFound());
                 break;
             case CONNECTED:

@@ -24,7 +24,7 @@ import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothException;
  * Created by thiagobarros on 05/04/15.
  */
 public class BluetoothManager{
-    private static final UUID uuid = UUID.fromString("0bed0288-dfbf-4557-9699-0929daa7c2eb");
+    private static final UUID uuid = UUID.fromString("0BED0288-DFBF-4557-9699-0929DAA7C2EB");
     private static final String LOG_TAG = BluetoothManager.class.getSimpleName();
 
     private Handler handler;
@@ -72,12 +72,11 @@ public class BluetoothManager{
     }
 
     public void disableBluetooth() {
-        try {
-            activity.unregisterReceiver(defaultReceiver);
-        }catch(IllegalArgumentException e){
-            Log.d(LOG_TAG, e.getMessage());
-        }
         defaultAdapter.disable();
+    }
+
+    public void destroy(){
+        activity.unregisterReceiver(defaultReceiver);
     }
 
     public boolean isEnabledBluetooth(){
