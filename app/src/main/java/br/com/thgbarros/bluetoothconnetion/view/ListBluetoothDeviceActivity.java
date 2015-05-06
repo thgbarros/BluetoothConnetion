@@ -53,6 +53,7 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
                 bluetoothManager.enableBluetooth();
             else
                 bluetoothManager.startDiscovery(getDefaultHandler());
+
         } catch (BluetoothException be) {
             Log.d(LOG_TAG, be.getMessage());
             be.printStackTrace();
@@ -71,7 +72,6 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
             bluetoothManager.startDiscovery(getDefaultHandler());
             return;
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -153,18 +153,20 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
                 break;
             case DISCOVERY_FINISH:
                 dialog.dismiss();
-                Log.d(LOG_TAG, "DISCOVERY_FINISH");
+                Log.d(LOG_TAG, "Discovery finish");
                 loadListView(bluetoothManager.getDevicesFound());
                 break;
             case CONNECTED:
                 dialog.dismiss();
+                Log.d(LOG_TAG, "Bluetooth Connected");
                 setResult(RESULT_OK);
                 finish();
                 break;
             case NOT_CONNECTED:
                 dialog.dismiss();
-                Toast.makeText(this, "Não foi possivel se conectar a "
-                        + deviceSelected.getName(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, String.format(
+                        getString(R.string.string_device_not_connected), deviceSelected.getName()),
+                            Toast.LENGTH_LONG).show();
                 break;
             default:
                 return;

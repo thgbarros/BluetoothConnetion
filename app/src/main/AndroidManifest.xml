@@ -21,8 +21,10 @@
 
         </activity>
 
-        <activity android:name=".view.SettingsActivity"/>
-        <activity android:name=".view.ListBluetoothDeviceActivity"/>
+        <activity android:name=".view.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.ListBluetoothDeviceActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

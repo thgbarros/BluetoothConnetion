@@ -12,7 +12,8 @@ public enum BluetoothStatus {
     NOT_CONNECTED(5),
     CONNECTED(6),
     ENABLED(7),
-    READ(8);
+    READ(8),
+    IN_COMMUNICATION(9);
 
 
     private int id;

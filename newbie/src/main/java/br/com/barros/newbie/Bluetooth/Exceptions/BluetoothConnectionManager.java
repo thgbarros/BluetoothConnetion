@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,10 +23,11 @@ public class BluetoothConnectionManager extends Thread{
     private final BluetoothSocket socket;
     private final InputStream inputStream;
     private final OutputStream outputStream;
-
     private Handler handler;
 
+    private static final String LOG_TAG = BluetoothConnectionManager.class.getSimpleName();
     private static BluetoothConnectionManager _instance;
+    public static BluetoothStatus STATUS = BluetoothStatus.NONE;
 
     private BluetoothConnectionManager(BluetoothDevice device, BluetoothSocket socket){
         this.socket = socket;
@@ -48,8 +50,10 @@ public class BluetoothConnectionManager extends Thread{
         byte[] buffer = new byte[1024];  // buffer store for the stream
         int bytes; // bytes returned from read()
 
+        Log.i(LOG_TAG, "Communication with the device ["+device.getName() +"] is started");
+        STATUS = BluetoothStatus.IN_COMMUNICATION;
         // Keep listening to the InputStream until an exception occurs
-        while (true) {
+        while (!isInterrupted()) {
             try {
                 // Read from the InputStream
                 bytes = inputStream.read(buffer);
@@ -74,6 +78,7 @@ public class BluetoothConnectionManager extends Thread{
     public void cancel() {
         try {
             socket.close();
+            Log.i(LOG_TAG, "Communication with the device ["+device.getName()+"] has been closed");
         } catch (IOException e) { }
     }
 
@@ -90,7 +95,6 @@ public class BluetoothConnectionManager extends Thread{
             _instance = new BluetoothConnectionManager(device, socket);
         return _instance;
     }
-
 
     public static BluetoothConnectionManager getInstance(){
         return _instance;

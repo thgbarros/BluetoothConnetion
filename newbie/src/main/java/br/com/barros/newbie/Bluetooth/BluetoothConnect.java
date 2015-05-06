@@ -65,6 +65,7 @@ public class BluetoothConnect extends Thread {
             }
         }
 
+        interrupt();
         Message message = new Message();
         message.what = bluetoothStatus.getId();
         handler.sendMessage(message);
@@ -84,4 +85,11 @@ public class BluetoothConnect extends Thread {
 
     public BluetoothDevice getDevice(){ return device; }
 
+    public boolean isConnected(){
+        return bluetoothStatus == BluetoothStatus.CONNECTED;
+    }
+
+    protected Handler getHandler(){
+        return handler;
+    }
 }

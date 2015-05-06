@@ -10,9 +10,13 @@
     <string name="menu_search_device">Procurar dispositivos</string>
     <string name="menu_reset_device">Resetar dispositivo</string>
 
+    <!--Dispositivo-->
     <string name="string_device_not_found">Nenhum dispositivo encontrado</string>
     <string name="string_search_devices">Buscando dispositivos</string>
     <string name="string_connecting_device">Conectando ao dispositivo</string>
+    <string name="string_device_not_connected">Não foi possível se conectar a %s</string>
+
+
     <string name="string_please_wait">Por favor aguarde!</string>
 
     <!--Label titles-->

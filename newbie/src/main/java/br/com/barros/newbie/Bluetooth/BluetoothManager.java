@@ -28,19 +28,15 @@ public class BluetoothManager{
     private static final String LOG_TAG = BluetoothManager.class.getSimpleName();
 
     private Handler handler;
-    private Set<BluetoothDevice> devicesFound;
-
+    private Activity activity;
     private BluetoothAdapter defaultAdapter;
     private BluetoothReceiver defaultReceiver;
-
-    private Activity activity;
-
-    private BluetoothStatus bluetoothStatus = BluetoothStatus.NONE;
+    private Set<BluetoothDevice> devicesFound;
 
     private BluetoothAccept acceptSocketThread = null;
     private BluetoothConnect bluetoothConnectThread = null;
-
     private BluetoothConnectionManager bluetoothConnectionManager;
+    private BluetoothStatus bluetoothStatus = BluetoothStatus.NONE;
 
     private static BluetoothManager _instance;
 
@@ -116,13 +112,23 @@ public class BluetoothManager{
     }
 
     public void acceptConnection(Handler handler) {
+        acceptSocketThread = null;
         acceptSocketThread = new BluetoothAccept(defaultAdapter, uuid, handler);
         acceptSocketThread.start();
     }
 
     public void connect(BluetoothDevice device, Handler handler) {
+        bluetoothConnectThread = null;
         bluetoothConnectThread = new BluetoothConnect(defaultAdapter, device, uuid, handler);
         bluetoothConnectThread.start();
+    }
+
+    public BluetoothDevice getDeviceConnected(){
+        if (bluetoothConnectThread.isConnected())
+            return bluetoothConnectThread.getDevice();
+
+        //TODO - Deve retornar um adaptador default;
+        return null;
     }
 
     public Set<BluetoothDevice> getDevicesPaired() {
@@ -138,22 +144,38 @@ public class BluetoothManager{
         return Collections.unmodifiableCollection(devicesFound);
     }
 
-    public BluetoothConnectionManager getBluetoothConnectionManager(Handler handler){
-        if (bluetoothConnectThread.getSocket() != null) {
-            bluetoothConnectionManager = BluetoothConnectionManager.getInstance(
-                    bluetoothConnectThread.getDevice(), bluetoothConnectThread.getSocket());
-            bluetoothConnectionManager.setHandler(handler);
-        }
-        return bluetoothConnectionManager;
+//    public BluetoothConnectionManager getBluetoothConnectionManager(Handler handler){
+//        if (bluetoothConnectThread.getSocket() != null) {
+//            bluetoothConnectionManager = BluetoothConnectionManager.getInstance(
+//                    bluetoothConnectThread.getDevice(), bluetoothConnectThread.getSocket());
+//            bluetoothConnectionManager.setHandler(handler);
+//        }
+//        return bluetoothConnectionManager;
+//    }
+
+//    public BluetoothConnectionManager getBluetoothConnectionManager(){
+//        if (bluetoothConnectThread.getSocket() != null) {
+//            bluetoothConnectionManager = BluetoothConnectionManager.getInstance(
+//                    bluetoothConnectThread.getDevice(), bluetoothConnectThread.getSocket());
+//        }
+//        return bluetoothConnectionManager;
+//    }
+
+    public void initCommunication(){
+        bluetoothConnectionManager = BluetoothConnectionManager.
+                    getInstance(bluetoothConnectThread.getDevice(),
+                            bluetoothConnectThread.getSocket());
+
+        if (bluetoothConnectionManager.STATUS != BluetoothStatus.IN_COMMUNICATION)
+            bluetoothConnectionManager.start();
+
     }
 
-    public BluetoothConnectionManager getBluetoothConnectionManager(){
-        if (bluetoothConnectThread.getSocket() != null) {
-            bluetoothConnectionManager = BluetoothConnectionManager.getInstance(
-                    bluetoothConnectThread.getDevice(), bluetoothConnectThread.getSocket());
-            bluetoothConnectionManager.run();
+    public void stopCommunication(){
+        if (bluetoothConnectionManager != null) {
+            bluetoothConnectionManager.cancel();
+            bluetoothConnectionManager = null;
         }
-        return bluetoothConnectionManager;
     }
 
     private void setActivity(Activity activity){
