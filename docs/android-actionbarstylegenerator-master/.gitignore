@@ -1,0 +1,6 @@
+*.DS_Store
+src/js/local.properties
+example/local.properties
+example/bin/
+example/gen/
+*.project

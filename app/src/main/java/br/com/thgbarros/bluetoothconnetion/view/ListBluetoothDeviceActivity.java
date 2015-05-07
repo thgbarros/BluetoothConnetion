@@ -47,6 +47,8 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+
         try {
             bluetoothManager = BluetoothManager.getInstance(this);
             if (!bluetoothManager.isEnabledBluetooth())
