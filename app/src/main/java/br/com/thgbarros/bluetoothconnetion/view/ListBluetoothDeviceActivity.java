@@ -1,5 +1,6 @@
 package br.com.thgbarros.bluetoothconnetion.view;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
@@ -46,8 +47,6 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
         setContentView(R.layout.activity_list_bluetooth_device);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
 
         try {
             bluetoothManager = BluetoothManager.getInstance(this);

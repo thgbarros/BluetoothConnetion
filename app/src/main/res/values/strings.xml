@@ -22,13 +22,14 @@
 
     <!--Label titles-->
     <string name="label_devices_available">Dispositivos disponíveis</string>
-    <string name="label_device_not_setting">Nenhum dispositivo configurado</string>
-    <string name="label_settings">Configurações</string>
+
+    <string name="menu_settings">Configurações</string>
+
     <string name="label_subtitle_bluetooth">Dispositivo Bluetooth</string>
 
     <!--Exception messages-->
     <string name="string_bluetooth_manager_exception">BluetoothManager não encontrado</string>
-    <string name="label_button_forget_device">Esquecer dispositivo</string>
+
 
     <!--TESTES-->
     <string name="title_edittext_preference">Edit text preference</string>

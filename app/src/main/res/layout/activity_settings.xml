@@ -5,6 +5,66 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/relativeLayoutDevice"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_10dp"
+        android:background="@android:color/darker_gray"
+        android:padding="@dimen/item_padding_3dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            android:text="@string/label_subtitle_bluetooth"
+            android:textColor="@android:color/white"
+            android:padding="@dimen/item_padding_3dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/label_no_device_select"
+            android:id="@+id/textViewDeviceConnected"
+            android:padding="@dimen/item_padding_5dp"
+            android:layout_centerHorizontal="true"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/textViewDeviceConnected"
+            android:layout_marginBottom="5dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_button_search_device"
+                android:id="@+id/buttonSearchDevice"
+                android:layout_below="@+id/textViewDeviceConnected"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_button_forget_device"
+                android:id="@+id/buttonForgetDevice"
+                android:layout_below="@+id/textViewDeviceConnected"
+                android:layout_centerHorizontal="true" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <!-- -->
+    <RelativeLayout
         android:id="@+id/relativeLayoutTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -18,8 +78,8 @@
             android:layout_marginLeft="@dimen/margin_10dp"
             android:textSize="12dp"
             android:textStyle="bold"
+            android:text="@string/label_subtitle_bluetooth"
             android:textColor="@android:color/white"
-            android:text="@string/label_settings"
             android:padding="@dimen/item_padding_3dp"/>
     </RelativeLayout>
 
@@ -30,29 +90,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_subtitle_bluetooth"
-            android:id="@+id/textViewSubtitleBluetooth"
-            android:padding="@dimen/item_padding_5dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_device_not_setting"
-            android:id="@+id/textViewDeviceConnected"
-            android:layout_below="@+id/textViewSubtitleBluetooth"
+
             android:padding="@dimen/item_padding_5dp"
             android:layout_centerHorizontal="true"/>
+        <!--android:text="@string/label_device_not_setting"-->
+        <!--android:id="@+id/textViewDeviceConnected"-->
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_button_forget_device"
-            android:id="@+id/buttonForgetDevice"
-            android:layout_below="@+id/textViewDeviceConnected"
+
             android:layout_centerHorizontal="true" />
-
-
+        <!--android:id="@+id/buttonForgetDevice"-->
+        <!--android:layout_below="@+id/textViewDeviceConnected"-->
     </RelativeLayout>
+
+
 </LinearLayout>

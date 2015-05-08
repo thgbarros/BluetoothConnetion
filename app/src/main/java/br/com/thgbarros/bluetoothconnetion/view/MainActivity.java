@@ -3,14 +3,9 @@ package br.com.thgbarros.bluetoothconnetion.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import br.com.barros.newbie.Bluetooth.BluetoothManager;
-import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothConnectionManager;
-import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothException;
 import br.com.thgbarros.bluetoothconnetion.R;
 
 /**
@@ -25,6 +20,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
     }
 
     @Override
@@ -41,9 +38,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.menu_setting:
-                startActivity(new Intent(this, SettingsActivity.class));
-
+            case R.id.menu_settings:
+//                startActivity(new Intent(this, SettingsFragment.class));
         }
 
         return super.onOptionsItemSelected(item);

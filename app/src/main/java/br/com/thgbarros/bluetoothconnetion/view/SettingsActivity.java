@@ -12,10 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import br.com.barros.newbie.Bluetooth.BluetoothManager;
-import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothConnectionManager;
 import br.com.thgbarros.bluetoothconnetion.R;
 
 /**
@@ -64,10 +62,10 @@ public class SettingsActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.menu_search_device:
-                Intent intent = new Intent(this, ListBluetoothDeviceActivity.class);
-                startActivityForResult(intent, REQUEST_CONNECT_DEVICE);
-                break;
+//            case R.id.menu_search_device:
+//                Intent intent = new Intent(this, ListBluetoothDeviceActivity.class);
+//                startActivityForResult(intent, REQUEST_CONNECT_DEVICE);
+//                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -98,7 +96,7 @@ public class SettingsActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             TextView deviceInfo = (TextView) findViewById(R.id.textViewDeviceConnected);
-            deviceInfo.setText(getString(R.string.label_device_not_setting));
+//            deviceInfo.setText(getString(R.string.label_device_not_setting));
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove(PREFERENCES_BLUETOOTH_NAME);
             editor.remove(PREFERENCES_BLUETOOTH_ADDRESS);
