@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <PreferenceCategory
+        android:title="@string/labe_setting_connection">
+
+        <CheckBoxPreference
+            android:key="pref_bt_enabled"
+            android:title="@string/Bt_checkbox"
+            android:summary="@string/Bt_checkbox_summary"
+            android:defaultValue="false" />
+
+        <ListPreference
+            android:key="pref_bt_devices"
+            android:summary="@string/Bt_devices_summary"
+            android:title="@string/Bt_devices"
+            android:enabled="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

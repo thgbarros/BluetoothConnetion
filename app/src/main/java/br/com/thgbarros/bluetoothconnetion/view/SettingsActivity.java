@@ -33,22 +33,26 @@ public class SettingsActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        //setContentView(R.layout.activity_settings);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sharedPreferences = getSharedPreferences(MainActivity.PREFERENCES, Context.MODE_PRIVATE);
 
-        if (sharedPreferences.contains(PREFERENCES_BLUETOOTH_NAME)) {
-            TextView deviceConnected = (TextView) findViewById(R.id.textViewDeviceConnected);
-            String deviceName = sharedPreferences.getString(PREFERENCES_BLUETOOTH_NAME, "");
-            String deviceAddress = sharedPreferences.getString(PREFERENCES_BLUETOOTH_ADDRESS, "");
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
 
-            deviceConnected.setText(deviceName + "\n" + deviceAddress);
-        }
-
-        Button buttonForgetDevice = (Button) findViewById(R.id.buttonForgetDevice);
-        buttonForgetDevice.setOnClickListener(listenerForgetDevice);
+//        if (sharedPreferences.contains(PREFERENCES_BLUETOOTH_NAME)) {
+//            TextView deviceConnected = (TextView) findViewById(R.id.textViewDeviceConnected);
+//            String deviceName = sharedPreferences.getString(PREFERENCES_BLUETOOTH_NAME, "");
+//            String deviceAddress = sharedPreferences.getString(PREFERENCES_BLUETOOTH_ADDRESS, "");
+//
+//            deviceConnected.setText(deviceName + "\n" + deviceAddress);
+//        }
+//
+//        Button buttonForgetDevice = (Button) findViewById(R.id.buttonForgetDevice);
+//        buttonForgetDevice.setOnClickListener(listenerForgetDevice);
     }
 
     @Override
@@ -101,4 +105,5 @@ public class SettingsActivity extends ActionBarActivity {
             editor.commit();
         }
     };
+
 }
