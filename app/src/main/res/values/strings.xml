@@ -1,5 +1,16 @@
 <resources>
-    <string name="app_name">VehicleScan</string>
+    <!--Label (Título) das Activitys -->
+    <string name="app_name">MackScan</string>
+    <string name="label_title_settings">Configurações</string>
+
+    <!--Título dos menus-->
+    <string name="menu_settings">Configurações</string>
+    <string name="menu_update">Atualizar</string>
+    <string name="menu_connect_device">Conectar</string>
+    <string name="menu_init_comunication">Iniciar</string>
+
+
+
 
     <!--ListBluetoothDeviceActivity-->
     <string name="menu_update_device">Atualizar dispositivos</string>
@@ -23,7 +34,7 @@
     <!--Label titles-->
     <string name="label_devices_available">Dispositivos disponíveis</string>
 
-    <string name="menu_settings">Configurações</string>
+
 
     <string name="label_subtitle_bluetooth">Dispositivo Bluetooth</string>
 
@@ -71,6 +82,21 @@
     <string name="Bt_devices">This is visually a child</string>
 
 
+    <string-array name="planets_array">
+        <item></item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_websearch">Web search</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
 
 
 </resources>
