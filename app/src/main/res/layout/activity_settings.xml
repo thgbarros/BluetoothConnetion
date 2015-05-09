@@ -31,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_no_device_select"
             android:id="@+id/textViewDeviceConnected"
             android:padding="@dimen/item_padding_5dp"
             android:layout_centerHorizontal="true"/>
@@ -47,7 +46,6 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_button_search_device"
                 android:id="@+id/buttonSearchDevice"
                 android:layout_below="@+id/textViewDeviceConnected"
                 android:layout_centerHorizontal="true" />
@@ -55,7 +53,6 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_button_forget_device"
                 android:id="@+id/buttonForgetDevice"
                 android:layout_below="@+id/textViewDeviceConnected"
                 android:layout_centerHorizontal="true" />
@@ -100,7 +97,6 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_button_forget_device"
 
             android:layout_centerHorizontal="true" />
         <!--android:id="@+id/buttonForgetDevice"-->

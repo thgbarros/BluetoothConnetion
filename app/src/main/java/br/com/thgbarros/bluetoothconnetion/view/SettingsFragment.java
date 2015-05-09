@@ -29,6 +29,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 100;
 
+    private BluetoothManager manager;
     BluetoothAdapter btAdapter;
     Set<BluetoothDevice> pairedDevices;
     Set<BluetoothDevice> discoveredDevices;
@@ -39,29 +40,16 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preference);
 
-        btDevicesList = (ListPreference) findPreference("pref_bt_devices");
-
-        BluetoothManager manager = null;
         try {
             manager = BluetoothManager.getInstance(getActivity());
-            if (manager.isEnabledBluetooth())
-                findPreference("pref_bt_enabled").setEnabled(true);
+            findPreference("pref_bt_enabled").
+                    setEnabled(manager.isEnabledBluetooth());
 
         } catch (BluetoothException e) {
             e.printStackTrace();
         }
-
-//        btAdapter = getBtAdapter();
-//        if (btAdapter != null) {
-//            findPreference("pref_bt_enabled").setEnabled(true);
-//        }
-//        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-//        getActivity().registerReceiver(btDiscoveryReceiver, filter);
-
     }
 
     @Override
@@ -81,12 +69,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onDestroy() {
         super.onPause();
-        getActivity().unregisterReceiver(btDiscoveryReceiver);
+//        getActivity().unregisterReceiver(btDiscoveryReceiver);
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("pref_bt_enabled")) {
-            if (sharedPreferences.getBoolean(key, false) == true) {
+            if (sharedPreferences.getBoolean(key, false)) {
                 Intent intent = new Intent(getActivity(), ListBluetoothDeviceActivity.class);
                 startActivityForResult(intent,  REQUEST_CONNECT_DEVICE);
                 //enableBluetooth();

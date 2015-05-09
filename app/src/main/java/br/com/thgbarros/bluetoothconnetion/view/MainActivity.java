@@ -12,7 +12,7 @@ import br.com.thgbarros.bluetoothconnetion.R;
  * Created by thiago on 02/05/15.
  */
 public class MainActivity extends ActionBarActivity {
-    public static final String PREFERENCES = "ScanCar Preferences";
+    public static final String PREFERENCES = "MackScan Preferences";
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -38,8 +38,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.menu_settings:
-//                startActivity(new Intent(this, SettingsFragment.class));
+            case R.id.menu_settings:startActivity(new Intent(this, SettingsActivity.class));
         }
 
         return super.onOptionsItemSelected(item);

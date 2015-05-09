@@ -1,13 +1,13 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.Example">
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
-        <item name="actionBarStyle">@style/AppTheme.ActionBarTitle</item>
     </style>
 
-    <style name="AppTheme.ActionBarTitle" parent="ActionBar.Solid.Example">
-        <item name="android:textColor">@android:color/white</item>
+    <style name="CustomTheme" parent="android:style/Theme">
+        <item name="android:textColorPrimary">#ffff0000</item>
     </style>
+
 
 </resources>

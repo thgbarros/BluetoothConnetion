@@ -31,7 +31,6 @@ public class SettingsActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_settings);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -40,17 +39,6 @@ public class SettingsActivity extends ActionBarActivity {
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
-
-//        if (sharedPreferences.contains(PREFERENCES_BLUETOOTH_NAME)) {
-//            TextView deviceConnected = (TextView) findViewById(R.id.textViewDeviceConnected);
-//            String deviceName = sharedPreferences.getString(PREFERENCES_BLUETOOTH_NAME, "");
-//            String deviceAddress = sharedPreferences.getString(PREFERENCES_BLUETOOTH_ADDRESS, "");
-//
-//            deviceConnected.setText(deviceName + "\n" + deviceAddress);
-//        }
-//
-//        Button buttonForgetDevice = (Button) findViewById(R.id.buttonForgetDevice);
-//        buttonForgetDevice.setOnClickListener(listenerForgetDevice);
     }
 
     @Override
@@ -66,6 +54,8 @@ public class SettingsActivity extends ActionBarActivity {
 //                Intent intent = new Intent(this, ListBluetoothDeviceActivity.class);
 //                startActivityForResult(intent, REQUEST_CONNECT_DEVICE);
 //                break;
+            case android.R.id.home:
+                finish();
         }
 
         return super.onOptionsItemSelected(item);

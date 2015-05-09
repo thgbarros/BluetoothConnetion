@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:key="@string/key_setting_connection"
-        android:title="@string/label_settings_category_connection">
+    <!--<PreferenceCategory android:key="@string/key_setting_connection"-->
+        <!--android:title="@string/label_settings_category_connection">-->
 
         <!--<ListPreference android:key="@string/pref_lang_key"-->
             <!--android:title="@string/idioma"-->
@@ -24,7 +24,7 @@
             <!--android:title="@string/noads_title"-->
             <!--android:defaultValue="false"-->
             <!--android:shouldDisableView="true" />-->
-    </PreferenceCategory>
+    <!--</PreferenceCategory>-->
 
     <!--<PreferenceCategory android:key="@string/notification_category"-->
         <!--android:title="@string/notificacoes">-->
