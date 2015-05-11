@@ -2,31 +2,32 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.thgbarros.bluetoothconnetion" >
 
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
         android:logo="@drawable/ic_dash"
-        android:theme="@style/AppTheme"
-        android:label="@string/app_name" >
-
-        <activity android:name=".view.MainActivity"
-            android:logo="@drawable/ic_dash">
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".view.MainActivity"
+            android:logo="@drawable/ic_dash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-        <activity android:name=".view.SettingsActivity"
+        <activity
+            android:name=".view.SettingsActivity"
             android:label="@string/label_title_settings"
             android:logo="@drawable/ic_dash" />
+        <activity
+            android:name=".view.ListBluetoothDeviceActivity"
+            android:logo="@drawable/ic_dash" />
 
-        <activity android:name=".view.ListBluetoothDeviceActivity"
-            android:logo="@drawable/ic_dash"/>
     </application>
 
 </manifest>

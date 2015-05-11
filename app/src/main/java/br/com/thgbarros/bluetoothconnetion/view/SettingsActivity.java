@@ -26,6 +26,7 @@ public class SettingsActivity extends ActionBarActivity {
     public static final String PREFERENCES_BLUETOOTH_ADDRESS = "Bluetooth_address";
 
     private static final String LOG_TAG = SettingsActivity.class.getSimpleName();
+    private static final String PREFERENCES = "MackScanPreference";
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -34,7 +35,7 @@ public class SettingsActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        sharedPreferences = getSharedPreferences(MainActivity.PREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
 
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
@@ -69,9 +70,9 @@ public class SettingsActivity extends ActionBarActivity {
                     Log.d(LOG_TAG, "Getting device connected...");
                     BluetoothDevice deviceConnected = BluetoothManager.getInstance().getDeviceConnected();
 
-                    TextView textViewDeviceConnected = (TextView) findViewById(R.id.textViewDeviceConnected);
-                    textViewDeviceConnected.setText(deviceConnected.getName() +
-                            "\n" + deviceConnected.getAddress());
+                    //TextView textViewDeviceConnected = (TextView) findViewById(R.id.textViewDeviceConnected);
+                    //textViewDeviceConnected.setText(deviceConnected.getName() +
+                    //        "\n" + deviceConnected.getAddress());
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(PREFERENCES_BLUETOOTH_NAME, deviceConnected.getName());
@@ -85,7 +86,7 @@ public class SettingsActivity extends ActionBarActivity {
     private View.OnClickListener listenerForgetDevice = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            TextView deviceInfo = (TextView) findViewById(R.id.textViewDeviceConnected);
+            //TextView deviceInfo = (TextView) findViewById(R.id.textViewDeviceConnected);
 //            deviceInfo.setText(getString(R.string.label_device_not_setting));
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove(PREFERENCES_BLUETOOTH_NAME);

@@ -1,0 +1,9 @@
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:choiceMode="singleChoice"
+    android:divider="#CFCFCF"
+    android:background="@color/app_background_drawer"
+    android:dividerHeight="0.5dp"
+    tools:context="br.com.thgbarros.bluetoothconnetion.view.NavigationDrawerFragment"/>
