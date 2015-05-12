@@ -42,6 +42,7 @@ public class BluetoothConnect extends Thread {
 
     public void run() {
         Log.d(LOG_TAG, "Trying socket connect...");
+        setName(LOG_TAG);
         //adapter.cancelDiscovery();
         try {
             socket.connect();
@@ -51,21 +52,23 @@ public class BluetoothConnect extends Thread {
             Log.d(LOG_TAG, "Socket connect ERROR["+ connectionE.getMessage() + "]");
             try {
                 Log.e(LOG_TAG,"trying fallback...");
-                socket = (BluetoothSocket) device.getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(device, 1);
+                socket = (BluetoothSocket) device.getClass().getMethod("createRfcommSocket",
+                                                        new Class[]{int.class}).invoke(device, 1);
                 socket.connect();
                 Log.d(LOG_TAG, "Socket connected by fallback");
                 bluetoothStatus = BluetoothStatus.CONNECTED;
             }catch(Exception smE){
                 bluetoothStatus = BluetoothStatus.NOT_CONNECTED;
+                Log.d(LOG_TAG, "Socket not connected [" + smE.getMessage() + "]");
                 try {
                     socket.close();
+                    Log.d(LOG_TAG, "Socket fallback closed");
                 }catch(IOException e){
-                    Log.d(LOG_TAG, "Socket not closed [" + smE.getMessage() + "]");
+                    Log.d(LOG_TAG, "Socket not closed [" + e.getMessage() + "]");
                 }
             }
         }
 
-        interrupt();
         Message message = new Message();
         message.what = bluetoothStatus.getId();
         handler.sendMessage(message);
@@ -75,7 +78,9 @@ public class BluetoothConnect extends Thread {
         try {
             socket.close();
             bluetoothStatus = BluetoothStatus.NOT_CONNECTED;
+            Log.d(LOG_TAG, "Socket Closed");
         } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="app_action_bar">#CFCFCF</color>
-    <color name="app_background_drawer">#3F3F40</color>
+    <color name="app_background_drawer">#8d8d8d8d</color>
 
 </resources>

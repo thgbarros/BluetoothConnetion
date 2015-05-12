@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:title="@string/labe_setting_connection"
+    <PreferenceCategory android:title="@string/pref_connection_title"
         android:textSize="14sp">
 
-        <CheckBoxPreference
-            android:key="pref_bt_enabled"
-            android:title="@string/Bt_checkbox"
-            android:summary="@string/Bt_checkbox_summary"
-            android:defaultValue="false" />
+        <CheckBoxPreference android:key="@string/pref_default_device_connect_key"
+            android:title="@string/pref_default_device_connect_title"/>
+
+        <EditTextPreference  android:key="@string/pref_default_device_key"
+            android:title="@string/pref_default_device_title"
+            android:summary="@string/pref_default_device_summary"
+            android:dialogIcon="@drawable/ic_action_bluetooth_searching"
+            android:dialogTitle="@string/pref_dialog_choose_device_title"
+            android:dependency="@string/pref_default_device_connect_key"/>
 
         <ListPreference
-            android:key="pref_bt_devices"
-            android:summary="@string/Bt_devices_summary"
-            android:title="@string/Bt_devices"
-            android:enabled="false" />
+            android:key="@string/pref_obd_protocol_list_key"
+            android:title="@string/pref_obd_protocol_list_title"
+            android:summary="@string/pref_obd_protocol_list_summary"
+            android:entries="@array/entries_obd_protocol_list_preference"
+            android:entryValues="@array/entry_values_obd_protocol_list_preference"
+            android:dialogTitle="@string/pref_obd_protocol_list_title"
+            android:defaultValue="@string/pref_obd_protocol_list_summary"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_about_title">
+
+        <EditTextPreference  android:key="@string/pref_software_version_key"
+            android:title="@string/pref_software_version_title" />
 
     </PreferenceCategory>
 

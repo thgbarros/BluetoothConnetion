@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="entries_list_preference">
-        <item>Alpha Option 01</item>
-        <item>Beta Option 02</item>
-        <item>Charlie Option 03</item>
+    <string-array name="entries_obd_protocol_list_preference">
+        <item>Automático (recomendado)</item>
+        <item>SAE J1850 PWM (41.6 kbaud)</item>
+        <item>SAE J1850 VPW (10.4 kbaud)</item>
+        <item>ISO 9141-2 (5 baud init, 10.4 kbit/s)</item>
+        <item>ISO 14230-4 KWP (5 baud init, 10.4 kbit/s)</item>
+        <item>ISO 14230-4 KWP (fast init, 10.4 kbit/s)</item>
+        <item>ISO 15765-4 CAN (11 bit ID, 500 kbit/s)</item>
+        <item>ISO 15765-4 CAN (29 bit ID, 500 kbit/s)</item>
+        <item>ISO 15765-4 CAN (11 bit ID, 250 kbit/s)</item>
+        <item>ISO 15765-4 CAN (29 bit ID, 250 kbit/s)</item>
     </string-array>
 
-    <string-array name="entryvalues_list_preference">
-        <item>Alpha</item>
-        <item>Beta</item>
-        <item>Charlie</item>
+    <string-array name="entry_values_obd_protocol_list_preference">
+        <item>Automático (recomendado)</item>
+        <item>SAE J1850 PWM (41.6 kbaud)</item>
+        <item>SAE J1850 VPW (10.4 kbaud)</item>
+        <item>ISO 9141-2 (5 baud init, 10.4 kbit/s)</item>
+        <item>ISO 14230-4 KWP (5 baud init, 10.4 kbit/s)</item>
+        <item>ISO 14230-4 KWP (fast init, 10.4 kbit/s)</item>
+        <item>ISO 15765-4 CAN (11 bit ID, 500 kbit/s)</item>
+        <item>ISO 15765-4 CAN (29 bit ID, 500 kbit/s)</item>
+        <item>ISO 15765-4 CAN (11 bit ID, 250 kbit/s)</item>
+        <item>ISO 15765-4 CAN (29 bit ID, 250 kbit/s)</item>
     </string-array>
 
 </resources>

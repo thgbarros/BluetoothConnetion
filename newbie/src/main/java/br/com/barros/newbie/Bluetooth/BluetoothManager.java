@@ -56,10 +56,6 @@ public class BluetoothManager{
         _instance = this;
     }
 
-    /**
-     * Habilita o bluetooth do dispositivo se o
-     * mesmo não estiver habilitado.
-     */
     public void enableBluetooth() {
         if (!defaultAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -117,10 +113,33 @@ public class BluetoothManager{
         acceptSocketThread.start();
     }
 
+    public void connect(String address, Handler handler){
+        BluetoothDevice device = defaultAdapter.getRemoteDevice(address);
+        connect(device, handler);
+    }
+
     public void connect(BluetoothDevice device, Handler handler) {
         bluetoothConnectThread = null;
         bluetoothConnectThread = new BluetoothConnect(defaultAdapter, device, uuid, handler);
         bluetoothConnectThread.start();
+    }
+
+    public void disconnect() {
+        if (bluetoothConnectThread.isConnected()) {
+            bluetoothConnectThread.cancel();
+            bluetoothConnectThread = null;
+        }
+
+//        try {
+//            _instance = null;
+//            _instance = new BluetoothManager(activity);
+//        } catch (BluetoothException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    public boolean isConnected(){
+        return (bluetoothConnectThread != null && bluetoothConnectThread.isConnected());
     }
 
     public BluetoothDevice getDeviceConnected(){
@@ -144,31 +163,13 @@ public class BluetoothManager{
         return Collections.unmodifiableCollection(devicesFound);
     }
 
-//    public BluetoothConnectionManager getBluetoothConnectionManager(Handler handler){
-//        if (bluetoothConnectThread.getSocket() != null) {
-//            bluetoothConnectionManager = BluetoothConnectionManager.getInstance(
-//                    bluetoothConnectThread.getDevice(), bluetoothConnectThread.getSocket());
-//            bluetoothConnectionManager.setHandler(handler);
-//        }
-//        return bluetoothConnectionManager;
-//    }
-
-//    public BluetoothConnectionManager getBluetoothConnectionManager(){
-//        if (bluetoothConnectThread.getSocket() != null) {
-//            bluetoothConnectionManager = BluetoothConnectionManager.getInstance(
-//                    bluetoothConnectThread.getDevice(), bluetoothConnectThread.getSocket());
-//        }
-//        return bluetoothConnectionManager;
-//    }
-
     public void initCommunication(){
-        bluetoothConnectionManager = BluetoothConnectionManager.
-                    getInstance(bluetoothConnectThread.getDevice(),
-                            bluetoothConnectThread.getSocket());
+        if (bluetoothConnectionManager == null)
+            bluetoothConnectionManager = new BluetoothConnectionManager(bluetoothConnectThread.getDevice(),
+                                                                        bluetoothConnectThread.getSocket());
 
-        if (bluetoothConnectionManager.STATUS != BluetoothStatus.IN_COMMUNICATION)
+        if (!bluetoothConnectionManager.inCommunication())
             bluetoothConnectionManager.start();
-
     }
 
     public void stopCommunication(){
@@ -176,6 +177,10 @@ public class BluetoothManager{
             bluetoothConnectionManager.cancel();
             bluetoothConnectionManager = null;
         }
+    }
+
+    public boolean inCommunication(){
+        return (bluetoothConnectionManager != null && bluetoothConnectionManager.inCommunication());
     }
 
     private void setActivity(Activity activity){
@@ -195,20 +200,4 @@ public class BluetoothManager{
         return _instance;
     }
 
-//    public Handler getDefaultHandler(){
-//        if (handler == null) {
-//            handler = new Handler() {
-//                @Override
-//                public void handleMessage(Message msg) {
-//                    updateThis(msg);
-//                }
-//            };
-//        }
-//
-//        return handler;
-//    }
-//
-//    private void updateThis(Message message){
-//
-//    }
 }

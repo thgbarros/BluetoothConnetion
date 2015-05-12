@@ -21,6 +21,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.barros.newbie.Bluetooth.BluetoothManager;
 import br.com.thgbarros.bluetoothconnetion.R;
 import br.com.thgbarros.bluetoothconnetion.view.android.CustomDrawerListViewAdapter;
 import br.com.thgbarros.bluetoothconnetion.view.android.RowItem;
@@ -60,6 +61,8 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    private  List<RowItem> rowItemList;
+    private CustomDrawerListViewAdapter drawerListViewAdapter;
 
     public NavigationDrawerFragment() {
     }
@@ -93,7 +96,7 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mDrawerListView = (ListView) inflater.inflate(R.layout.fragment_navigation_drawer,
-                                                                                container, false);
+                container, false);
 
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -102,12 +105,20 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-        List<RowItem> rowItemList = new ArrayList<>();
-        rowItemList.add(new RowItem(android.R.drawable.presence_offline, "Desconectado"));
-        rowItemList.add(new RowItem(android.R.drawable.presence_online, "Leituras"));
-        rowItemList.add(new RowItem(android.R.drawable.presence_invisible, "Falhas"));
+        BluetoothManager bluetoothManager = BluetoothManager.getInstance();
+        rowItemList = new ArrayList<>();
+        rowItemList.add(new RowItem(R.drawable.ic_connector, getString(R.string.string_device_disconnected)));
+        if (bluetoothManager != null && bluetoothManager.isConnected()){
+            rowItemList.clear();
+            rowItemList.add(new RowItem(R.drawable.ic_connector_connected,
+                                String.format(getString(R.string.string_device_connected),
+                                            bluetoothManager.getDeviceConnected().getName() )));
+        }
 
-        CustomDrawerListViewAdapter drawerListViewAdapter = new CustomDrawerListViewAdapter(getActivity(),
+        rowItemList.add(new RowItem(R.drawable.ic_reads, getString(R.string.string_read)));
+        rowItemList.add(new RowItem(R.drawable.ic_trouble, getString(R.string.string_trouble)));
+
+        drawerListViewAdapter = new CustomDrawerListViewAdapter(getActivity(),
                     R.layout.drawer_list_item, rowItemList);
 
         mDrawerListView.setAdapter(drawerListViewAdapter);
@@ -247,6 +258,20 @@ public class NavigationDrawerFragment extends Fragment {
 
     private ActionBar getActionBar() {
         return ((ActionBarActivity) getActivity()).getSupportActionBar();
+    }
+
+    public void updateDeviceStatus(){
+        BluetoothManager bluetoothManager = BluetoothManager.getInstance();
+        RowItem rowItem = rowItemList.get(0);
+        rowItem.setImageId((bluetoothManager != null && bluetoothManager.isConnected()) ?
+                R.drawable.ic_connector_connected : R.drawable.ic_connector);
+        rowItem.setDescricao((bluetoothManager != null && bluetoothManager.isConnected()) ?
+                String.format(getString(R.string.string_device_connected),
+                        bluetoothManager.getDeviceConnected().getName()) :
+                getString(R.string.string_device_disconnected));
+
+        drawerListViewAdapter.notifyDataSetChanged();
+        mDrawerListView.setAdapter(drawerListViewAdapter);
     }
 
     /**

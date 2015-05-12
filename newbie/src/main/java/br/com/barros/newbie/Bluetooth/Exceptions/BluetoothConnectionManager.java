@@ -20,16 +20,16 @@ import br.com.barros.newbie.Bluetooth.BluetoothStatus;
 public class BluetoothConnectionManager extends Thread{
 
     private final BluetoothDevice device;
-    private final BluetoothSocket socket;
+    private BluetoothSocket socket;
     private final InputStream inputStream;
     private final OutputStream outputStream;
     private Handler handler;
 
     private static final String LOG_TAG = BluetoothConnectionManager.class.getSimpleName();
     private static BluetoothConnectionManager _instance;
-    public static BluetoothStatus STATUS = BluetoothStatus.NONE;
+    private static BluetoothStatus STATUS = BluetoothStatus.NONE;
 
-    private BluetoothConnectionManager(BluetoothDevice device, BluetoothSocket socket){
+    public BluetoothConnectionManager(BluetoothDevice device, BluetoothSocket socket){
         this.socket = socket;
         this.device = device;
         this.handler = null;
@@ -49,7 +49,7 @@ public class BluetoothConnectionManager extends Thread{
     public void run() {
         byte[] buffer = new byte[1024];  // buffer store for the stream
         int bytes; // bytes returned from read()
-
+        setName(LOG_TAG);
         Log.i(LOG_TAG, "Communication with the device ["+device.getName() +"] is started");
         STATUS = BluetoothStatus.IN_COMMUNICATION;
         // Keep listening to the InputStream until an exception occurs
@@ -62,7 +62,6 @@ public class BluetoothConnectionManager extends Thread{
                     handler.obtainMessage(BluetoothStatus.READ.getId(),
                                             bytes, -1, buffer).sendToTarget();
                 }
-
             } catch (IOException e) {
                 break;
             }
@@ -78,8 +77,15 @@ public class BluetoothConnectionManager extends Thread{
     public void cancel() {
         try {
             socket.close();
+            STATUS = BluetoothStatus.NONE;
             Log.i(LOG_TAG, "Communication with the device ["+device.getName()+"] has been closed");
-        } catch (IOException e) { }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean inCommunication(){
+        return STATUS == BluetoothStatus.IN_COMMUNICATION;
     }
 
     public BluetoothDevice getDevice(){
@@ -88,12 +94,6 @@ public class BluetoothConnectionManager extends Thread{
 
     public void setHandler(Handler handler){
         this.handler = handler;
-    }
-
-    public static BluetoothConnectionManager getInstance(BluetoothDevice device, BluetoothSocket socket){
-        if (_instance == null)
-            _instance = new BluetoothConnectionManager(device, socket);
-        return _instance;
     }
 
     public static BluetoothConnectionManager getInstance(){

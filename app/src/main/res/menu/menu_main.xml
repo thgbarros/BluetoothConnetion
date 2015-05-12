@@ -5,15 +5,16 @@
 
     <item android:id="@+id/menu_init_comunication"
         android:title="@string/menu_init_comunication"
-        android:icon="@android:drawable/ic_media_play"
-        android:enabled="false"
-        app:showAsAction="ifRoom|withText"/>
+        android:icon="@drawable/ic_action_play"
+        app:showAsAction="ifRoom"/>
 
+    <item android:id="@+id/menu_connect_device"
+        android:title="@string/menu_connect_device"
+        android:icon="@drawable/ic_connector"
+        app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/menu_settings"
         android:title="@string/menu_settings"
         android:showAsAction="never"/>
-
-
 
 </menu>

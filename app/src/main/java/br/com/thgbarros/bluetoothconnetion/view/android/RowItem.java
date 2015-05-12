@@ -24,7 +24,7 @@ public class RowItem {
         return descricao;
     }
 
-    public void setDesc(String descricao) {
+    public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
