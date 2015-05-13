@@ -3,11 +3,11 @@ package br.com.thgbarros.bluetoothconnetion.view.android;
 /**
  * Created by thiagobarros on 10/05/15.
  */
-public class RowItem {
+public class DrawerRowItem {
     private int imageId;
     private String descricao;
 
-    public RowItem(int imageId, String descricao) {
+    public DrawerRowItem(int imageId, String descricao) {
         this.imageId = imageId;
         this.descricao = descricao;
     }

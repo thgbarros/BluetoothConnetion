@@ -15,18 +15,18 @@ import android.widget.TextView;
 
 import br.com.thgbarros.bluetoothconnetion.R;
 
-public class CustomDrawerListViewAdapter extends ArrayAdapter<RowItem> {
+public class CustomDrawerListViewAdapter extends ArrayAdapter<DrawerRowItem> {
 
     private Context context;
 
-    public CustomDrawerListViewAdapter(Context context, int resourceId, List<RowItem> items) {
+    public CustomDrawerListViewAdapter(Context context, int resourceId, List<DrawerRowItem> items) {
         super(context, resourceId, items);
         this.context = context;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        RowItem rowItem = getItem(position);
+        DrawerRowItem rowItem = getItem(position);
 
         LayoutInflater mInflater = (LayoutInflater) context
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);

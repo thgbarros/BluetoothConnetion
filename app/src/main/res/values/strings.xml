@@ -2,13 +2,18 @@
     <!--Label (Título) das Activitys -->
     <string name="app_name">MackScan</string>
     <string name="label_title_settings">Configurações</string>
+    <string name="label_title_reads">Leituras</string>
 
     <!--Título dos menus-->
     <string name="menu_settings">Configurações</string>
     <string name="menu_update">Atualizar</string>
     <string name="menu_connect_device">Conectar</string>
     <string name="menu_init_comunication">Iniciar</string>
-
+    <string name="menu_update_device">Atualizar dispositivos</string>
+    <string name="menu_tunOn">Habilitar bluetooth</string>
+    <string name="menu_tunOff">Desabilitar bluetooth</string>
+    <string name="menu_search_device">Procurar dispositivos</string>
+    <string name="menu_reset_device">Resetar dispositivo</string>
 
     <!--Preferency key-->
     <string name="pref_default_device_key">pref_device_selected</string>
@@ -29,29 +34,26 @@
     <string name="pref_default_device_summary">Escolha um dispositivo padrão</string>
     <string name="pref_obd_protocol_list_summary">Automático (recomendado)</string>
 
-
     <!--ListBluetoothDeviceActivity-->
     <string name="activity_listBluetoothDeviceActivity_title">Lista de dispositivos</string>
-    <string name="menu_update_device">Atualizar dispositivos</string>
-    <string name="menu_tunOn">Habilitar bluetooth</string>
-    <string name="menu_tunOff">Desabilitar bluetooth</string>
 
-    <!--SettingsActivity-->
+    <!--Mensagens Design-->
+    <string name="string_read">Leituras</string>
+    <string name="string_trouble">Falhas</string>
 
-    <string name="menu_search_device">Procurar dispositivos</string>
-    <string name="menu_reset_device">Resetar dispositivo</string>
-
-    <!--Dispositivo-->
+    <!--Mensagens runtime-->
     <string name="string_device_not_found">Nenhum dispositivo encontrado</string>
     <string name="string_search_devices">Buscando dispositivos</string>
     <string name="string_connecting_device">Conectando ao dispositivo</string>
     <string name="string_device_not_connected">Não foi possível se conectar a %s</string>
-    <string name="string_device_connected">Conectado ao dispositivo %s</string>
+    <string name="string_device_connected">Conectado ao dispositivo: %s</string>
     <string name="string_device_disconnected">Dispositivo disconectado</string>
-    <string name="string_read">Leituras</string>
-    <string name="string_trouble">Falhas</string>
-
     <string name="string_please_wait">Por favor aguarde!</string>
+    <string name="string_bluetooth_connection_failed">Problema no Bluetooth: Falha na conexão!</string>
+    <string name="string_alert_warning">ATENÇÃO</string>
+    <string name="string_alert_device_not_connected_retry">Dispositivo bluetooth não conectado.\nDeseja conectar?</string>
+    <string name="string_alert_button_yes">Sim</string>
+    <string name="string_alert_button_no">Não</string>
 
     <!--Label titles-->
     <string name="label_devices_available">Dispositivos disponíveis</string>
@@ -59,6 +61,10 @@
 
     <!--Exception messages-->
     <string name="string_bluetooth_manager_exception">BluetoothManager não encontrado</string>
+
+
+
+
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

@@ -32,15 +32,16 @@ import static br.com.barros.newbie.Bluetooth.BluetoothStatus.getValueOf;
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final int ITEM_SELECTED_READS = 1;
+    private static final int ITEM_SELECTED_TROUBLE = 2;
+
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private ProgressDialog dialog;
     private Menu menu;
     private Handler handler;
     private String deviceName;
-    private String deviceAddress;
     private BluetoothManager bluetoothManager;
-
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +65,19 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = null;
+        switch (position){
+            case ITEM_SELECTED_READS:
+                fragment = new ReadsFragment();
+                break;
+//            case ITEM_SELECTED_TROUBLE:
+//                break;
+            default:
+                fragment = new PlaceholderFragment();
+        }
+
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, fragment)
                 .commit();
     }
 
@@ -122,12 +134,14 @@ public class MainActivity extends ActionBarActivity
             case SettingsFragment.REQUEST_CONNECT_DEVICE:
                 switch (resultCode) {
                     case RESULT_OK:
+                        deviceName = bluetoothManager.getDeviceConnected().getName();
+
                         Message message = new Message();
                         message.what = CONNECTED.getId();
                         updateUI(message);
                         break;
                     case RESULT_CANCELED:
-                        Toast.makeText(this, "Problema no Bluetooth: Falha na conexão",
+                        Toast.makeText(this, getString(R.string.string_bluetooth_connection_failed),
                                 Toast.LENGTH_LONG)
                                 .show();
                 }
@@ -144,6 +158,8 @@ public class MainActivity extends ActionBarActivity
 
         boolean connectByDeviceDefault = sharedPreferences.getBoolean(
                                 getString(R.string.pref_default_device_connect_key), false);
+
+        String deviceAddress = "";
 
         if (connectByDeviceDefault) {
             deviceAddress = sharedPreferences.getString(SettingsFragment.PREFERENCES_BLUETOOTH_ADDRESS, "");
@@ -173,15 +189,15 @@ public class MainActivity extends ActionBarActivity
     private void initCommunication(){
         if (!bluetoothManager.isConnected()){
             new AlertDialog.Builder(this)
-                .setTitle("ATENÇÂO")
-                .setMessage("Dispositivo bluetooth não conectado.\nDeseja conectar?")
-                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                .setTitle(getString(R.string.string_alert_warning))
+                .setMessage(getString(R.string.string_alert_device_not_connected_retry))
+                .setPositiveButton(getString(R.string.string_alert_button_yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         bluetoothConnect();
                     }
                 })
-                .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.string_alert_button_no), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -239,14 +255,6 @@ public class MainActivity extends ActionBarActivity
     public static class PlaceholderFragment extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
         public PlaceholderFragment() {
         }
 
@@ -254,6 +262,7 @@ public class MainActivity extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            getActivity().setTitle(R.string.app_name);
             return rootView;
         }
 

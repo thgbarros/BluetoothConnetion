@@ -24,7 +24,7 @@ import java.util.List;
 import br.com.barros.newbie.Bluetooth.BluetoothManager;
 import br.com.thgbarros.bluetoothconnetion.R;
 import br.com.thgbarros.bluetoothconnetion.view.android.CustomDrawerListViewAdapter;
-import br.com.thgbarros.bluetoothconnetion.view.android.RowItem;
+import br.com.thgbarros.bluetoothconnetion.view.android.DrawerRowItem;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -33,25 +33,10 @@ import br.com.thgbarros.bluetoothconnetion.view.android.RowItem;
  */
 public class NavigationDrawerFragment extends Fragment {
 
-    /**
-     * Remember the position of the selected item.
-     */
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
-
-    /**
-     * Per the design guidelines, you should show the drawer on launch until the user manually
-     * expands it. This shared preference tracks this.
-     */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 
-    /**
-     * A pointer to the current callbacks instance (the Activity).
-     */
     private NavigationDrawerCallbacks mCallbacks;
-
-    /**
-     * Helper component that ties the action bar to the navigation drawer.
-     */
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
@@ -61,11 +46,8 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
-    private  List<RowItem> rowItemList;
+    private  List<DrawerRowItem> rowItemList;
     private CustomDrawerListViewAdapter drawerListViewAdapter;
-
-    public NavigationDrawerFragment() {
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +64,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         // Select either the default item (0) or the last selected item.
-        //selectItem(mCurrentSelectedPosition);
+        selectItem(mCurrentSelectedPosition);
     }
 
     @Override
@@ -93,10 +75,8 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(R.layout.fragment_navigation_drawer,
-                container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mDrawerListView = (ListView) inflater.inflate(R.layout.fragment_navigation_drawer,  container, false);
 
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -107,16 +87,16 @@ public class NavigationDrawerFragment extends Fragment {
 
         BluetoothManager bluetoothManager = BluetoothManager.getInstance();
         rowItemList = new ArrayList<>();
-        rowItemList.add(new RowItem(R.drawable.ic_connector, getString(R.string.string_device_disconnected)));
+        rowItemList.add(new DrawerRowItem(R.drawable.ic_connector, getString(R.string.string_device_disconnected)));
         if (bluetoothManager != null && bluetoothManager.isConnected()){
             rowItemList.clear();
-            rowItemList.add(new RowItem(R.drawable.ic_connector_connected,
+            rowItemList.add(new DrawerRowItem(R.drawable.ic_connector_connected,
                                 String.format(getString(R.string.string_device_connected),
                                             bluetoothManager.getDeviceConnected().getName() )));
         }
 
-        rowItemList.add(new RowItem(R.drawable.ic_reads, getString(R.string.string_read)));
-        rowItemList.add(new RowItem(R.drawable.ic_trouble, getString(R.string.string_trouble)));
+        rowItemList.add(new DrawerRowItem(R.drawable.ic_reads, getString(R.string.string_read)));
+        rowItemList.add(new DrawerRowItem(R.drawable.ic_trouble, getString(R.string.string_trouble)));
 
         drawerListViewAdapter = new CustomDrawerListViewAdapter(getActivity(),
                     R.layout.drawer_list_item, rowItemList);
@@ -262,7 +242,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     public void updateDeviceStatus(){
         BluetoothManager bluetoothManager = BluetoothManager.getInstance();
-        RowItem rowItem = rowItemList.get(0);
+        DrawerRowItem rowItem = rowItemList.get(0);
         rowItem.setImageId((bluetoothManager != null && bluetoothManager.isConnected()) ?
                 R.drawable.ic_connector_connected : R.drawable.ic_connector);
         rowItem.setDescricao((bluetoothManager != null && bluetoothManager.isConnected()) ?
