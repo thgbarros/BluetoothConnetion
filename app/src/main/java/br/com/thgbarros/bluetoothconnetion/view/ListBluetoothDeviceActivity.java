@@ -1,6 +1,5 @@
 package br.com.thgbarros.bluetoothconnetion.view;
 
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
@@ -24,7 +23,6 @@ import java.util.List;
 
 import br.com.barros.newbie.Bluetooth.BluetoothManager;
 import br.com.barros.newbie.Bluetooth.BluetoothStatus;
-import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothConnectionManager;
 import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothException;
 import br.com.thgbarros.bluetoothconnetion.R;
 
@@ -34,6 +32,7 @@ import static br.com.barros.newbie.Bluetooth.BluetoothStatus.*;
  * created by thiago barros
  */
 public class ListBluetoothDeviceActivity extends ActionBarActivity implements OnItemClickListener {
+    private static final String KEY_LIST = "key_list";
     private BluetoothManager bluetoothManager;
     private Handler handler;
     private ProgressDialog dialog = null;
@@ -45,16 +44,20 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_bluetooth_device);
-
+        setTitle(R.string.activity_listBluetoothDeviceActivity_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         try {
             bluetoothManager = BluetoothManager.getInstance(this);
-            if (!bluetoothManager.isEnabledBluetooth())
-                bluetoothManager.enableBluetooth();
-            else
-                bluetoothManager.startDiscovery(getDefaultHandler());
 
+            if (!bluetoothManager.getDevicesFound().isEmpty()) {
+                loadListView(bluetoothManager.getDevicesFound());
+            }else {
+                if (!bluetoothManager.isEnabledBluetooth())
+                    bluetoothManager.enableBluetooth();
+                else
+                    bluetoothManager.startDiscovery(getDefaultHandler());
+            }
         } catch (BluetoothException be) {
             Log.d(LOG_TAG, be.getMessage());
             be.printStackTrace();
@@ -134,7 +137,7 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
     }
 
     private void loadListView(Collection<BluetoothDevice> devices) {
-        ListView listDevicePaired = (ListView) findViewById(R.id.listViewDevices);
+        ListView listDeviceFound = (ListView) findViewById(R.id.listViewDevices);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_list_item_1);
 
         for (BluetoothDevice device: devices)
@@ -143,7 +146,7 @@ public class ListBluetoothDeviceActivity extends ActionBarActivity implements On
         if (devices.size() == 0)
             adapter.add(getString(R.string.string_device_not_found));
 
-        listDevicePaired.setAdapter(adapter);
+        listDeviceFound.setAdapter(adapter);
     }
 
     private void updateUI(Message msg){

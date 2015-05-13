@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import br.com.barros.newbie.Bluetooth.BluetoothManager;
 import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothException;
 import br.com.thgbarros.bluetoothconnetion.R;
 
+import static br.com.barros.newbie.Bluetooth.BluetoothStatus.CONNECTED;
 import static br.com.barros.newbie.Bluetooth.BluetoothStatus.getValueOf;
 
 public class MainActivity extends ActionBarActivity
@@ -49,14 +51,13 @@ public class MainActivity extends ActionBarActivity
                                                         .findFragmentById(R.id.navigation_drawer);
 
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
-                                    (DrawerLayout) findViewById(R.id.drawer_layout));
+                (DrawerLayout) findViewById(R.id.drawer_layout));
 
         try {
            bluetoothManager = BluetoothManager.getInstance(this);
         } catch (BluetoothException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -115,16 +116,49 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case SettingsFragment.REQUEST_CONNECT_DEVICE:
+                switch (resultCode) {
+                    case RESULT_OK:
+                        Message message = new Message();
+                        message.what = CONNECTED.getId();
+                        updateUI(message);
+                        break;
+                    case RESULT_CANCELED:
+                        Toast.makeText(this, "Problema no Bluetooth: Falha na conexão",
+                                Toast.LENGTH_LONG)
+                                .show();
+                }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private void bluetoothConnect(){
         dialog = ProgressDialog.show(this, getString(R.string.string_connecting_device),
                 getString(R.string.string_please_wait), true, true);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        deviceAddress = sharedPreferences.getString(SettingsFragment.PREFERENCES_BLUETOOTH_ADDRESS, "");
-        deviceName = sharedPreferences.getString(SettingsFragment.PREFERENCES_BLUETOOTH_NAME, "");
+        boolean connectByDeviceDefault = sharedPreferences.getBoolean(
+                                getString(R.string.pref_default_device_connect_key), false);
 
-        bluetoothManager.connect(deviceAddress, getDefaultHandler());
+        if (connectByDeviceDefault) {
+            deviceAddress = sharedPreferences.getString(SettingsFragment.PREFERENCES_BLUETOOTH_ADDRESS, "");
+            deviceName = sharedPreferences.getString(SettingsFragment.PREFERENCES_BLUETOOTH_NAME, "");
+            if (!deviceAddress.isEmpty()) {
+                bluetoothManager.connect(deviceAddress, getDefaultHandler());
+                return;
+            }
+        }
+
+        if (!connectByDeviceDefault || deviceAddress.isEmpty()) {
+            Intent intent = new Intent(this, ListBluetoothDeviceActivity.class);
+            startActivityForResult(intent, SettingsFragment.REQUEST_CONNECT_DEVICE);
+            dialog.dismiss();
+        }
     }
 
     private void bluetoothDisconnect(){

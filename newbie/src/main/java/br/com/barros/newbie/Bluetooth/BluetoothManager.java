@@ -68,7 +68,9 @@ public class BluetoothManager{
     }
 
     public void destroy(){
-        activity.unregisterReceiver(defaultReceiver);
+        try {
+            activity.unregisterReceiver(defaultReceiver);
+        }catch(Exception e){}
     }
 
     public boolean isEnabledBluetooth(){

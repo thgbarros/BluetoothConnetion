@@ -25,7 +25,7 @@ import br.com.thgbarros.bluetoothconnetion.R;
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener,
             Preference.OnPreferenceClickListener {
 
-    private static final int REQUEST_CONNECT_DEVICE = 1;
+    public static final int REQUEST_CONNECT_DEVICE = 1;
     public static final String PREFERENCES_BLUETOOTH_NAME = "Bluetooth_name";
     public static final String PREFERENCES_BLUETOOTH_ADDRESS = "Bluetooth_address";
 
@@ -33,7 +33,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private static final String PREFERENCES = "MackScanPreference";
 
     private BluetoothManager manager;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
