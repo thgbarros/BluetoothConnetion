@@ -34,8 +34,8 @@ public class ReadsFragment extends Fragment {
         readListView = (ListView)  inflater.inflate(R.layout.fragment_reads, container, false);
 
         rowItemList = new ArrayList<>();
-        rowItemList.add(new ReadsRowItem("Tensão da Bateria", "13,9", "V"));
-        rowItemList.add(new ReadsRowItem("Rotação", "920", "RPM"));
+        rowItemList.add(new ReadsRowItem("Tensão da bateria", "13,9", "V"));
+        rowItemList.add(new ReadsRowItem("Rotação do motor", "920", "RPM"));
         rowItemList.add(new ReadsRowItem("Sensor MAP", "360", "BAR"));
 
         CustomReadsListViewAdapter adapter = new CustomReadsListViewAdapter(getActivity(),

@@ -35,12 +35,14 @@ public class CustomReadsListViewAdapter extends ArrayAdapter<ReadsRowItem> {
             holder = new ViewHolder();
             holder.textViewTitle = (TextView) convertView.findViewById(R.id.textViewReadTitle);
             holder.textViewValue = (TextView) convertView.findViewById(R.id.textViewReadValue);
+            holder.textViewUnitOfMeasure = (TextView) convertView.findViewById(R.id.textViewReadUnitOfMeasure);
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();
 
         holder.textViewTitle.setText(rowItem.getTitle());
-        holder.textViewValue.setText(rowItem.getValue() + " " + rowItem.getUnitOfMeasure());
+        holder.textViewValue.setText(rowItem.getValue());
+        holder.textViewUnitOfMeasure.setText(rowItem.getUnitOfMeasure());
 
         return convertView;
     }
@@ -48,6 +50,7 @@ public class CustomReadsListViewAdapter extends ArrayAdapter<ReadsRowItem> {
     private class ViewHolder {
         TextView textViewTitle;
         TextView textViewValue;
+        TextView textViewUnitOfMeasure;
     }
 
 }

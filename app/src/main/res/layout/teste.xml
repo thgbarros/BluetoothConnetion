@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:paddingLeft="@dimen/margin_15dp">
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="60sp"
+        android:layout_height="fill_parent"
         android:orientation="vertical" >
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_5dp">
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="@dimen/margin_5dp"
+            android:layout_weight="0.55">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -24,13 +25,13 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="3dp"
                     android:layout_weight="0.5" >
 
                     <TextView android:id="@+id/textViewReadTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rotação "
+                        android:text="Rotação do motor"
                         android:textAppearance="?android:attr/textAppearance"
                         android:textSize="18sp"/>
                 </RelativeLayout>
@@ -38,7 +39,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.015" >
+                    android:layout_weight="0.05" >
 
                     <TextView android:id="@+id/textViewReadValue"
                         android:layout_width="wrap_content"
@@ -58,7 +59,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="RPM"
-                        android:textSize="14sp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
                         android:textColor="@android:color/primary_text_light"/>
                 </RelativeLayout>
 
