@@ -3,6 +3,7 @@
     <string name="app_name">MackScan</string>
     <string name="label_title_settings">Configurações</string>
     <string name="label_title_reads">Leituras</string>
+    <string name="label_title_trouble">Defeitos</string>
 
     <!--Título dos menus-->
     <string name="menu_settings">Configurações</string>
@@ -71,6 +72,16 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_trouble_tab_activty">Defeitos</string>
+
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="hello_world">Hello world!</string>
+
+    <string name="action_settings">Settings</string>
 
 </resources>
 

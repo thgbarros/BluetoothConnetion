@@ -27,7 +27,6 @@
         <activity
             android:name=".view.ListBluetoothDeviceActivity"
             android:logo="@drawable/ic_dash" />
-
     </application>
 
 </manifest>

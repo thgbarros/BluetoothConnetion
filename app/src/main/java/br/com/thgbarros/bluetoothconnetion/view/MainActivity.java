@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import br.com.barros.newbie.Bluetooth.BluetoothManager;
 import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothException;
 import br.com.thgbarros.bluetoothconnetion.R;
+import br.com.thgbarros.bluetoothconnetion.view.android.SupportFragmentTabListener;
 
 import static br.com.barros.newbie.Bluetooth.BluetoothStatus.CONNECTED;
 import static br.com.barros.newbie.Bluetooth.BluetoothStatus.getValueOf;
@@ -42,6 +44,7 @@ public class MainActivity extends ActionBarActivity
     private Handler handler;
     private String deviceName;
     private BluetoothManager bluetoothManager;
+    private Fragment fragmentActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+
         try {
            bluetoothManager = BluetoothManager.getInstance(this);
         } catch (BluetoothException e) {
@@ -65,19 +69,20 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = null;
+        uninstallTabs();
         switch (position){
             case ITEM_SELECTED_READS:
-                fragment = new ReadsFragment();
+                fragmentActual = new ReadsFragment();
                 break;
-//            case ITEM_SELECTED_TROUBLE:
-//                break;
+            case ITEM_SELECTED_TROUBLE:
+                setupTabs();
+                return;
             default:
-                fragment = new PlaceholderFragment();
+                fragmentActual = new PlaceholderFragment();
         }
 
         fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
+                .replace(R.id.container, fragmentActual)
                 .commit();
     }
 
@@ -250,6 +255,34 @@ public class MainActivity extends ActionBarActivity
                         Toast.LENGTH_LONG).show();
                 break;
         }
+    }
+
+    private void setupTabs(){
+        getSupportFragmentManager().beginTransaction()
+                   .remove(fragmentActual).commit();
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowTitleEnabled(true);
+
+        ActionBar.Tab troublePresent = actionBar.newTab()
+                    .setText("PRESENTE")
+                    .setTabListener(new SupportFragmentTabListener<TabTroublePresentFragment>(R.id.container, this,
+                                                        "Present", TabTroublePresentFragment.class));
+
+        ActionBar.Tab troublePast = actionBar.newTab()
+                .setText("PASSADO")
+                .setTabListener(new SupportFragmentTabListener<TabTroublePastFragment>(R.id.container, this,
+                        "Present", TabTroublePastFragment.class));
+        actionBar.addTab(troublePresent);
+        actionBar.addTab(troublePast);
+
+    }
+
+    private void uninstallTabs(){
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.removeAllTabs();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
     }
 
     public static class PlaceholderFragment extends Fragment {
