@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -265,6 +266,8 @@ public class MainActivity extends ActionBarActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowTitleEnabled(true);
 
+        setTitle(R.string.label_title_trouble);
+
         ActionBar.Tab troublePresent = actionBar.newTab()
                     .setText("PRESENTE")
                     .setTabListener(new SupportFragmentTabListener<TabTroublePresentFragment>(R.id.container, this,
@@ -283,6 +286,8 @@ public class MainActivity extends ActionBarActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.removeAllTabs();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+
+        //setTitle(R.string.app_name);
     }
 
     public static class PlaceholderFragment extends Fragment {

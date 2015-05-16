@@ -3,4 +3,8 @@
     <color name="app_action_bar">#CFCFCF</color>
     <color name="app_background_drawer">#8d8d8d8d</color>
 
+    <color name="sa_green">#14a804</color>
+    <color name="stacked_green">#118504</color>
+    <color name="accent_green">#97e08f</color>
+
 </resources>
