@@ -1,7 +1,6 @@
 <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:choiceMode="multipleChoice"
-    android:divider="#CFCFCF"
+    android:divider="@color/divider_list_item"
     android:dividerHeight="0.5dp"/>

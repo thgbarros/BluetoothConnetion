@@ -266,8 +266,6 @@ public class MainActivity extends ActionBarActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowTitleEnabled(true);
 
-        setTitle(R.string.label_title_trouble);
-
         ActionBar.Tab troublePresent = actionBar.newTab()
                     .setText("PRESENTE")
                     .setTabListener(new SupportFragmentTabListener<TabTroublePresentFragment>(R.id.container, this,
@@ -276,7 +274,7 @@ public class MainActivity extends ActionBarActivity
         ActionBar.Tab troublePast = actionBar.newTab()
                 .setText("PASSADO")
                 .setTabListener(new SupportFragmentTabListener<TabTroublePastFragment>(R.id.container, this,
-                        "Present", TabTroublePastFragment.class));
+                        "Past", TabTroublePastFragment.class));
         actionBar.addTab(troublePresent);
         actionBar.addTab(troublePast);
 

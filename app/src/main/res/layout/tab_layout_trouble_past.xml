@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listViewTroublePast"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="B"
-        android:textSize="150sp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-</RelativeLayout> 
+    android:layout_height="fill_parent"
+    android:choiceMode="multipleChoice"
+    android:divider="@color/divider_list_item"
+    android:dividerHeight="@dimen/list_divider_height"/>

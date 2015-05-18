@@ -21,4 +21,6 @@
     <dimen name="navigation_drawer_width">240dp</dimen>
     <dimen name="margin_5dp">5dp</dimen>
 
+    <dimen name="list_divider_height">0.5dp</dimen>
+
 </resources>

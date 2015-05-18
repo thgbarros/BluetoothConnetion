@@ -18,7 +18,6 @@ import br.com.thgbarros.bluetoothconnetion.view.android.ReadsRowItem;
  * Created by thiago on 13/05/15.
  */
 public class ReadsFragment extends Fragment {
-    private static ReadsFragment _instance;
     private List<ReadsRowItem> rowItemList;
     private ListView readListView;
 
