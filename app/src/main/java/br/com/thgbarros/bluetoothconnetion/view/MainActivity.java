@@ -54,7 +54,6 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-
         try {
            bluetoothManager = BluetoothManager.getInstance(this);
         } catch (BluetoothException e) {
@@ -64,8 +63,11 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if (actualFragment != null)
+            fragmentManager.beginTransaction().detach(actualFragment).commit();
+
         switch (position){
             case ITEM_SELECTED_READS:
                 actualFragment = new ReadsFragment();

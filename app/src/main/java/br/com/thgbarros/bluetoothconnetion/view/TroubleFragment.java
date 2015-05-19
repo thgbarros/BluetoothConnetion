@@ -28,6 +28,12 @@ public class TroubleFragment extends Fragment implements TabHost.OnTabChangeList
     private ViewPageAdapter viewPageAdapter;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivity().setTitle(R.string.label_title_trouble);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trouble, container, false);
 
@@ -50,21 +56,13 @@ public class TroubleFragment extends Fragment implements TabHost.OnTabChangeList
 
     private void initializeViewPage(View view){
         List<Fragment> fragments = new ArrayList<>();
-        Bundle bundleTroublePresent = new Bundle();
-        TabTroublePresentFragment troublePresentFragment = new TabTroublePresentFragment();
-        bundleTroublePresent.putString(ACTIVITY_TITLE_KEY, "Defeitos presentes");
-        troublePresentFragment.setArguments(bundleTroublePresent);
-        fragments.add(troublePresentFragment);
-
-        Bundle bundleTroublePast = new Bundle();
-        TabTroublePastFragment troublePastFragment = new TabTroublePastFragment();
-        bundleTroublePast.putString(ACTIVITY_TITLE_KEY, "Defeitos passados");
-        troublePastFragment.setArguments(bundleTroublePast);
-        fragments.add(troublePastFragment);
+        fragments.add(Fragment.instantiate(getActivity(), TabTroublePresentFragment.class.getName()));
+        fragments.add(Fragment.instantiate(getActivity(), TabTroublePastFragment.class.getName()));
 
         viewPageAdapter = new ViewPageAdapter(getActivity().getSupportFragmentManager(), fragments);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         viewPager.setAdapter(viewPageAdapter);
+        viewPager.setCurrentItem(tabHost.getCurrentTab());
         viewPager.setOnPageChangeListener(this);
     }
 
@@ -103,9 +101,6 @@ public class TroubleFragment extends Fragment implements TabHost.OnTabChangeList
     public void onTabChanged(String tabId) {
         int pos = tabHost.getCurrentTab();
         viewPager.setCurrentItem(pos);
-        Fragment fragment =  viewPageAdapter.getItem(pos);
-        String title = fragment.getArguments().getString(ACTIVITY_TITLE_KEY);
-        getActivity().setTitle(title);
     }
 
 }

@@ -27,4 +27,5 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return fragments.size();
     }
+
 }
