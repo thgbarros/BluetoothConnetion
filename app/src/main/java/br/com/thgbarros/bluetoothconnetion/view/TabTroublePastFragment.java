@@ -1,8 +1,6 @@
 package br.com.thgbarros.bluetoothconnetion.view;
 
 import android.os.Bundle;
-import android.provider.SyncStateContract;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.thgbarros.bluetoothconnetion.R;
-import br.com.thgbarros.bluetoothconnetion.view.android.ReadsRowItem;
-import br.com.thgbarros.bluetoothconnetion.view.android.TroubleListViewAdapter;
-import br.com.thgbarros.bluetoothconnetion.view.android.TroubleRowItem;
+import br.com.thgbarros.bluetoothconnetion.view.adapter.TroubleListViewAdapter;
+import br.com.thgbarros.bluetoothconnetion.view.adapter.rowitem.TroubleRowItem;
 
 /**
  * Created by thiago on 15/05/15.
@@ -23,13 +20,6 @@ import br.com.thgbarros.bluetoothconnetion.view.android.TroubleRowItem;
 public class TabTroublePastFragment extends Fragment {
     private List<TroubleRowItem> rowItemList;
     private ListView troubleListView;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-        getActivity().setTitle("Defeitos Passados");
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

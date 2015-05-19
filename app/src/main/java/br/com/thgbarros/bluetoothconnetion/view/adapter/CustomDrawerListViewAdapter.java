@@ -1,4 +1,4 @@
-package br.com.thgbarros.bluetoothconnetion.view.android;
+package br.com.thgbarros.bluetoothconnetion.view.adapter;
 
 /**
  * Created by thiagobarros on 10/05/15.
@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import br.com.thgbarros.bluetoothconnetion.R;
+import br.com.thgbarros.bluetoothconnetion.view.adapter.rowitem.DrawerRowItem;
 
 public class CustomDrawerListViewAdapter extends ArrayAdapter<DrawerRowItem> {
 

@@ -1,4 +1,4 @@
-package br.com.thgbarros.bluetoothconnetion.view.android;
+package br.com.thgbarros.bluetoothconnetion.view.adapter.rowitem;
 
 /**
  * Created by thiago on 13/05/15.

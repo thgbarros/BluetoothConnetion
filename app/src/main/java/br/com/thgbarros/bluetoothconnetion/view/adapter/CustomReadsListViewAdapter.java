@@ -1,4 +1,4 @@
-package br.com.thgbarros.bluetoothconnetion.view.android;
+package br.com.thgbarros.bluetoothconnetion.view.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.com.thgbarros.bluetoothconnetion.R;
+import br.com.thgbarros.bluetoothconnetion.view.adapter.rowitem.ReadsRowItem;
 
 /**
  * Created by thiago on 13/05/15.

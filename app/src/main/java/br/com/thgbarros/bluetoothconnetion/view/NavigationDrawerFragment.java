@@ -23,8 +23,8 @@ import java.util.List;
 
 import br.com.barros.newbie.Bluetooth.BluetoothManager;
 import br.com.thgbarros.bluetoothconnetion.R;
-import br.com.thgbarros.bluetoothconnetion.view.android.CustomDrawerListViewAdapter;
-import br.com.thgbarros.bluetoothconnetion.view.android.DrawerRowItem;
+import br.com.thgbarros.bluetoothconnetion.view.adapter.CustomDrawerListViewAdapter;
+import br.com.thgbarros.bluetoothconnetion.view.adapter.rowitem.DrawerRowItem;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.

@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.thgbarros.bluetoothconnetion.R;
-import br.com.thgbarros.bluetoothconnetion.view.android.TroubleListViewAdapter;
-import br.com.thgbarros.bluetoothconnetion.view.android.TroubleRowItem;
+import br.com.thgbarros.bluetoothconnetion.view.adapter.TroubleListViewAdapter;
+import br.com.thgbarros.bluetoothconnetion.view.adapter.rowitem.TroubleRowItem;
 
 /**
  * Created by thiago on 15/05/15.
@@ -31,7 +31,6 @@ public class TabTroublePresentFragment extends Fragment {
         rowItemList = new ArrayList<>();
         rowItemList.add(new TroubleRowItem("P0100","Mau funcionamento da massa ou volume do cicuito do fluxo de ar"));
         rowItemList.add(new TroubleRowItem("P0200","Mau funcionamento do circuito do injetor"));
-
 
         TroubleListViewAdapter adapter = new TroubleListViewAdapter(getActivity(), rowItemList);
         troubleListView.setAdapter(adapter);

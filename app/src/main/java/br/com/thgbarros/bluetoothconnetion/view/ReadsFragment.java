@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.thgbarros.bluetoothconnetion.R;
-import br.com.thgbarros.bluetoothconnetion.view.android.CustomReadsListViewAdapter;
-import br.com.thgbarros.bluetoothconnetion.view.android.ReadsRowItem;
+import br.com.thgbarros.bluetoothconnetion.view.adapter.CustomReadsListViewAdapter;
+import br.com.thgbarros.bluetoothconnetion.view.adapter.rowitem.ReadsRowItem;
 
 /**
  * Created by thiago on 13/05/15.

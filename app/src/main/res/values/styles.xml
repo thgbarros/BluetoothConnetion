@@ -26,7 +26,7 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">#FFF</item>
 
-        <item name="android:fontFamily">Roboto</item>
+        <item name="android:fontFamily">Reboto</item>
         <item name="android:textSize">20sp</item>
     </style>
 
