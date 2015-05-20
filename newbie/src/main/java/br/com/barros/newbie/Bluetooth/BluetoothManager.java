@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.Collection;
@@ -17,7 +15,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothConnectionManager;
 import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothException;
 
 /**
@@ -131,13 +128,6 @@ public class BluetoothManager{
             bluetoothConnectThread.cancel();
             bluetoothConnectThread = null;
         }
-
-//        try {
-//            _instance = null;
-//            _instance = new BluetoothManager(activity);
-//        } catch (BluetoothException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public boolean isConnected(){
@@ -165,13 +155,18 @@ public class BluetoothManager{
         return Collections.unmodifiableCollection(devicesFound);
     }
 
-    public void initCommunication(){
+    public void initCommunication(Handler handler){
         if (bluetoothConnectionManager == null)
             bluetoothConnectionManager = new BluetoothConnectionManager(bluetoothConnectThread.getDevice(),
-                                                                        bluetoothConnectThread.getSocket());
+                                                                        bluetoothConnectThread.getSocket(),
+                                                                        handler);
 
         if (!bluetoothConnectionManager.inCommunication())
             bluetoothConnectionManager.start();
+    }
+
+    public void send(byte[] message){
+        bluetoothConnectionManager.write(message);
     }
 
     public void stopCommunication(){

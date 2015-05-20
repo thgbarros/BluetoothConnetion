@@ -24,6 +24,8 @@ import android.widget.Toast;
 import br.com.barros.newbie.Bluetooth.BluetoothManager;
 import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothException;
 import br.com.thgbarros.bluetoothconnetion.R;
+import br.com.thgbarros.bluetoothconnetion.communication.ElmProtocol;
+import br.com.thgbarros.bluetoothconnetion.communication.Protocol;
 
 import static br.com.barros.newbie.Bluetooth.BluetoothStatus.CONNECTED;
 import static br.com.barros.newbie.Bluetooth.BluetoothStatus.getValueOf;
@@ -42,6 +44,7 @@ public class MainActivity extends ActionBarActivity
     private String deviceName;
     private BluetoothManager bluetoothManager;
     private Fragment actualFragment;
+    private Protocol protocol;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class MainActivity extends ActionBarActivity
 
         try {
            bluetoothManager = BluetoothManager.getInstance(this);
+           protocol = ElmProtocol.getInstance(getDefaultHandler(), bluetoothManager);
         } catch (BluetoothException e) {
             e.printStackTrace();
         }
@@ -64,9 +68,6 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-
-        if (actualFragment != null)
-            fragmentManager.beginTransaction().detach(actualFragment).commit();
 
         switch (position){
             case ITEM_SELECTED_READS:
@@ -202,16 +203,16 @@ public class MainActivity extends ActionBarActivity
                 })
                 .setNegativeButton(getString(R.string.string_alert_button_no), new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
+                    public void onClick(DialogInterface dialog, int which) {}
                 }).create().show();
             return;
         }
 
-        MenuItem menuItem = menu.findItem(R.id.menu_init_comunication);
-        menuItem.setIcon(R.drawable.ic_action_pause);
-        bluetoothManager.initCommunication();
+        dialog = ProgressDialog.show(this, getString(R.string.string_init_communication),
+                getString(R.string.string_please_wait), true, true);
+
+        //Se iniciar retornará uma mensagem para o updateUI com message.wait = IN_COMMUNICATION;
+        protocol.startCommunication();
     }
 
     private void stopCommunication(){
@@ -252,6 +253,10 @@ public class MainActivity extends ActionBarActivity
                                 getString(R.string.string_device_not_connected), deviceName),
                         Toast.LENGTH_LONG).show();
                 break;
+            case IN_COMMUNICATION:
+                dialog.dismiss();
+                MenuItem menuItem = menu.findItem(R.id.menu_init_comunication);
+                menuItem.setIcon(R.drawable.ic_action_pause);
         }
     }
 

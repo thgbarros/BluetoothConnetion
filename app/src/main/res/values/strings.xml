@@ -50,6 +50,7 @@
     <string name="string_device_not_connected">Não foi possível se conectar a %s</string>
     <string name="string_device_connected">Conectado ao dispositivo: %s</string>
     <string name="string_device_disconnected">Dispositivo disconectado</string>
+    <string name="string_init_communication">Iniciando a comunicação</string>
     <string name="string_please_wait">Por favor aguarde!</string>
     <string name="string_bluetooth_connection_failed">Problema no Bluetooth: Falha na conexão!</string>
     <string name="string_alert_warning">ATENÇÃO</string>

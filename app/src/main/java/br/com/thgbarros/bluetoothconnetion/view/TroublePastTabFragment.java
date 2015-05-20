@@ -17,23 +17,25 @@ import br.com.thgbarros.bluetoothconnetion.view.adapter.rowitem.TroubleRowItem;
 /**
  * Created by thiago on 15/05/15.
  */
-public class TabTroublePresentFragment extends Fragment {
+public class TroublePastTabFragment extends Fragment {
     private List<TroubleRowItem> rowItemList;
     private ListView troubleListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (container == null)
-            return null;
-
-        troubleListView = (ListView) inflater.inflate(R.layout.tab_layout_trouble_present, container, false);
+        troubleListView = (ListView) inflater.inflate(R.layout.tab_layout_trouble_past, container, false);
 
         rowItemList = new ArrayList<>();
-        rowItemList.add(new TroubleRowItem("P0100","Mau funcionamento da massa ou volume do cicuito do fluxo de ar"));
-        rowItemList.add(new TroubleRowItem("P0200","Mau funcionamento do circuito do injetor"));
+        rowItemList.add(new TroubleRowItem("P0107", "Mau funcionamento da massa ou volume do cicuito..."));
 
         TroubleListViewAdapter adapter = new TroubleListViewAdapter(getActivity(), rowItemList);
+
         troubleListView.setAdapter(adapter);
         return troubleListView;
+    }
+
+    @Override
+    public String toString() {
+        return TroublePastTabFragment.class.getSimpleName();
     }
 }

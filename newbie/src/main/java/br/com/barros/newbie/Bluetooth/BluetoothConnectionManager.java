@@ -1,18 +1,13 @@
-package br.com.barros.newbie.Bluetooth.Exceptions;
+package br.com.barros.newbie.Bluetooth;
 
-import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import br.com.barros.newbie.Bluetooth.BluetoothStatus;
 
 /**
  * Created by thiago on 21/04/15.
@@ -29,10 +24,10 @@ public class BluetoothConnectionManager extends Thread{
     private static BluetoothConnectionManager _instance;
     private static BluetoothStatus STATUS = BluetoothStatus.NONE;
 
-    public BluetoothConnectionManager(BluetoothDevice device, BluetoothSocket socket){
+    public BluetoothConnectionManager(BluetoothDevice device, BluetoothSocket socket, Handler handler){
         this.socket = socket;
         this.device = device;
-        this.handler = null;
+        this.handler = handler;
         InputStream tmpIn = null;
         OutputStream tmpOut = null;
 
@@ -56,7 +51,9 @@ public class BluetoothConnectionManager extends Thread{
         while (!isInterrupted()) {
             try {
                 // Read from the InputStream
+                Log.i(LOG_TAG, "Waiting data...");
                 bytes = inputStream.read(buffer);
+                Log.i(LOG_TAG, "Data received ["+ new String(buffer, "ISO-8859-1") +"]");
                 // Send the obtained bytes to the UI activity
                 if (handler != null) {
                     handler.obtainMessage(BluetoothStatus.READ.getId(),
@@ -70,6 +67,7 @@ public class BluetoothConnectionManager extends Thread{
 
     public void write(byte[] bytes) {
         try {
+            Log.d(LOG_TAG, "Writing data[" + new String(bytes, "ISO-8859-1") + "]");
             outputStream.write(bytes);
         } catch (IOException e) { }
     }

@@ -3,8 +3,9 @@ package br.com.thgbarros.bluetoothconnetion.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +27,17 @@ public class TroubleFragment extends Fragment implements TabHost.OnTabChangeList
     private TabHost tabHost;
     private ViewPager viewPager;
     private ViewPageAdapter viewPageAdapter;
+    private static final String LOG_TAG = TroubleFragment.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.label_title_trouble);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 
     @Override
@@ -55,11 +62,7 @@ public class TroubleFragment extends Fragment implements TabHost.OnTabChangeList
     }
 
     private void initializeViewPage(View view){
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(Fragment.instantiate(getActivity(), TabTroublePresentFragment.class.getName()));
-        fragments.add(Fragment.instantiate(getActivity(), TabTroublePastFragment.class.getName()));
-
-        viewPageAdapter = new ViewPageAdapter(getActivity().getSupportFragmentManager(), fragments);
+        viewPageAdapter = new ViewPageAdapter(getActivity().getSupportFragmentManager(), getFragmentList());
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         viewPager.setAdapter(viewPageAdapter);
         viewPager.setCurrentItem(tabHost.getCurrentTab());
@@ -70,6 +73,24 @@ public class TroubleFragment extends Fragment implements TabHost.OnTabChangeList
         tabSpec.setContent(new TabFactory(getActivity()));
         tabHost.addTab(tabSpec);
     }
+
+    private List<Fragment> getFragmentList() {
+        List<Fragment> fragments = new ArrayList<>();
+
+        fragments.add(Fragment.instantiate(getActivity(), TroublePresentTabFragment.class.getName()));
+        fragments.add(Fragment.instantiate(getActivity(), TroublePastTabFragment.class.getName()));
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        for (Fragment fragment : fragmentManager.getFragments()) {
+            if (fragment instanceof TroublePresentTabFragment || fragment instanceof TroublePastTabFragment) {
+                Log.d(LOG_TAG, "Detach [" + fragment + "]");
+                fragmentManager.beginTransaction().detach(fragment).commit();
+            }
+        }
+        return fragments;
+    }
+
 
     // Um simples factory que retorna View para o TabHost
     class TabFactory implements TabHost.TabContentFactory {
