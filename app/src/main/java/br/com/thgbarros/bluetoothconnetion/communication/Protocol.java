@@ -1,7 +1,6 @@
 package br.com.thgbarros.bluetoothconnetion.communication;
 
-import br.com.thgbarros.bluetoothconnetion.communication.model.Read;
-import br.com.thgbarros.bluetoothconnetion.communication.model.Trouble;
+import br.com.thgbarros.bluetoothconnetion.communication.state.ProtocolState;
 
 /**
  * Essa classe define quais compotamentos os
@@ -11,13 +10,10 @@ import br.com.thgbarros.bluetoothconnetion.communication.model.Trouble;
  */
 public interface Protocol {
 
-    public void startCommunication();
-    public void stopCommunication();
-    public boolean inCommunication();
-    public void startReading();
-    public void startReadingTroubles();
+    void retry(int value);
+    byte[] txRx(byte[] data);
 
-    public Read getRead();
-    public Trouble getTrouble();
-
+    ProtocolState getState();
 }
+
+

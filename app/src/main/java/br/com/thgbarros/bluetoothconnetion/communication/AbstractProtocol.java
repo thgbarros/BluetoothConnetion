@@ -18,6 +18,11 @@ public abstract class AbstractProtocol extends Thread  implements Protocol {
     private BluetoothManager bluetoothManager;
     protected static AbstractProtocol _instance;
 
+    //Thread para enviar e aguardar a resposta do serviço solicitado.
+    //Thread de recebimento precisa saber por quanto tempo ela vai ficar esperando.
+    private ProtocolSending sending;
+    private ProtocolReceiver receiver;
+
     public AbstractProtocol(Handler handler, BluetoothManager bluetoothManager){
         this.handler = handler;
         this.bluetoothManager = bluetoothManager;
@@ -43,8 +48,10 @@ public abstract class AbstractProtocol extends Thread  implements Protocol {
         }
     }
 
-    public synchronized void setDataToSend(byte[] dataToSend){
+    public synchronized byte[] txRx(byte[] dataToSend){
+
         this.dataToSend = dataToSend;
+        return null;
     }
 
     protected static Handler getDefaultHandler(){
@@ -56,13 +63,9 @@ public abstract class AbstractProtocol extends Thread  implements Protocol {
         return handler;
     }
 
-
-    @Override
     public void startCommunication() {
         bluetoothManager.initCommunication(getHandler());
     }
-
-    @Override
     public void stopCommunication() {
         bluetoothManager.stopCommunication();
     }

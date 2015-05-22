@@ -8,6 +8,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 
 /**
  * Created by thiago on 21/04/15.
@@ -42,19 +43,21 @@ public class BluetoothConnectionManager extends Thread{
     }
 
     public void run() {
-        byte[] buffer = new byte[1024];  // buffer store for the stream
-        int bytes; // bytes returned from read()
+        byte[] buffer = new byte[1024];
+        int bytes;
         setName(LOG_TAG);
         Log.i(LOG_TAG, "Communication with the device ["+device.getName() +"] is started");
         STATUS = BluetoothStatus.IN_COMMUNICATION;
-        // Keep listening to the InputStream until an exception occurs
+
         while (!isInterrupted()) {
             try {
-                // Read from the InputStream
                 Log.i(LOG_TAG, "Waiting data...");
                 bytes = inputStream.read(buffer);
-                Log.i(LOG_TAG, "Data received ["+ new String(buffer, "ISO-8859-1") +"]");
-                // Send the obtained bytes to the UI activity
+
+                byte[] bufferClear = new byte[bytes];
+                bufferClear = Arrays.copyOf(buffer, bytes);
+
+                Log.i(LOG_TAG, "Data received ["+ new String(bufferClear, "UTF-8") +"]");
                 if (handler != null) {
                     handler.obtainMessage(BluetoothStatus.READ.getId(),
                                             bytes, -1, buffer).sendToTarget();
