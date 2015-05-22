@@ -1,5 +1,8 @@
 package br.com.thgbarros.bluetoothconnetion.communication;
 
+import br.com.thgbarros.bluetoothconnetion.communication.model.Read;
+import br.com.thgbarros.bluetoothconnetion.communication.model.Trouble;
+
 /**
  * Essa classe define quais compotamentos os
  * protocolos implementados no sistema irão ter.
@@ -13,5 +16,8 @@ public interface Protocol {
     public boolean inCommunication();
     public void startReading();
     public void startReadingTroubles();
+
+    public Read getRead();
+    public Trouble getTrouble();
 
 }

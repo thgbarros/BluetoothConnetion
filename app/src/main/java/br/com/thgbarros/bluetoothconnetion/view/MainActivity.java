@@ -24,7 +24,7 @@ import android.widget.Toast;
 import br.com.barros.newbie.Bluetooth.BluetoothManager;
 import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothException;
 import br.com.thgbarros.bluetoothconnetion.R;
-import br.com.thgbarros.bluetoothconnetion.communication.ElmProtocol;
+import br.com.thgbarros.bluetoothconnetion.communication.elm.ElmProtocol;
 import br.com.thgbarros.bluetoothconnetion.communication.Protocol;
 
 import static br.com.barros.newbie.Bluetooth.BluetoothStatus.CONNECTED;

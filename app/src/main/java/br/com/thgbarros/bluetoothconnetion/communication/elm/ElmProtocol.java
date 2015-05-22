@@ -1,4 +1,4 @@
-package br.com.thgbarros.bluetoothconnetion.communication;
+package br.com.thgbarros.bluetoothconnetion.communication.elm;
 
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +9,9 @@ import java.util.List;
 
 import br.com.barros.newbie.Bluetooth.BluetoothManager;
 import br.com.barros.newbie.Bluetooth.BluetoothStatus;
+import br.com.thgbarros.bluetoothconnetion.communication.AbstractProtocol;
+import br.com.thgbarros.bluetoothconnetion.communication.model.Read;
+import br.com.thgbarros.bluetoothconnetion.communication.model.Trouble;
 
 import static br.com.barros.newbie.Bluetooth.BluetoothStatus.READ;
 import static br.com.barros.newbie.Bluetooth.BluetoothStatus.getValueOf;
@@ -69,6 +72,16 @@ public class ElmProtocol extends AbstractProtocol {
 
     }
 
+    @Override
+    public Read getRead() {
+        return null;
+    }
+
+    @Override
+    public Trouble getTrouble() {
+        return null;
+    }
+
 
     private void processMessageReceive(Message message){
         byte[] allData = (byte[]) message.obj;
@@ -102,7 +115,7 @@ public class ElmProtocol extends AbstractProtocol {
                 msg.arg1, msg.arg2, msg.obj).sendToTarget();
     }
 
-    public static ElmProtocol getInstance(Handler handler, BluetoothManager bluetoothManager){
+    public static AbstractProtocol getInstance(Handler handler, BluetoothManager bluetoothManager){
         if (_instance == null)
             _instance = new ElmProtocol(handler,
                     AbstractProtocol.getDefaultHandler(), bluetoothManager);

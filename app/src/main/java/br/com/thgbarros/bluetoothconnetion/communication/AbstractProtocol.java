@@ -2,10 +2,10 @@ package br.com.thgbarros.bluetoothconnetion.communication;
 
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.os.AsyncTaskCompat;
 import android.util.Log;
 
 import br.com.barros.newbie.Bluetooth.BluetoothManager;
+import br.com.thgbarros.bluetoothconnetion.communication.elm.ElmProtocol;
 
 /**
  * Created by thiago on 20/05/15.
@@ -16,7 +16,7 @@ public abstract class AbstractProtocol extends Thread  implements Protocol {
     private Handler handler;
     private byte[] dataToSend;
     private BluetoothManager bluetoothManager;
-    protected static ElmProtocol _instance;
+    protected static AbstractProtocol _instance;
 
     public AbstractProtocol(Handler handler, BluetoothManager bluetoothManager){
         this.handler = handler;
