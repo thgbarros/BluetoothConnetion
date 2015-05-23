@@ -57,7 +57,7 @@ public class BluetoothConnectionManager extends Thread{
                 byte[] bufferClear = new byte[bytes];
                 bufferClear = Arrays.copyOf(buffer, bytes);
 
-                Log.i(LOG_TAG, "Data received ["+ new String(bufferClear, "UTF-8") +"]");
+                Log.i(LOG_TAG, "Data received "+ Arrays.toString(bufferClear));
                 if (handler != null) {
                     handler.obtainMessage(BluetoothStatus.READ.getId(),
                                             bytes, -1, buffer).sendToTarget();
@@ -68,10 +68,10 @@ public class BluetoothConnectionManager extends Thread{
         }
     }
 
-    public void write(byte[] bytes) {
+    public void write(byte[] value) {
         try {
-            Log.d(LOG_TAG, "Writing data[" + new String(bytes, "ISO-8859-1") + "]");
-            outputStream.write(bytes);
+            Log.d(LOG_TAG, "Writing data" + Arrays.toString(value));
+            outputStream.write(value);
         } catch (IOException e) { }
     }
 

@@ -24,7 +24,9 @@ import android.widget.Toast;
 import br.com.barros.newbie.Bluetooth.BluetoothManager;
 import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothException;
 import br.com.thgbarros.bluetoothconnetion.R;
-import br.com.thgbarros.bluetoothconnetion.communication.elm.ElmProtocol;
+import br.com.thgbarros.bluetoothconnetion.communication.CommunicationHandler;
+import br.com.thgbarros.bluetoothconnetion.communication.command.ElmCommand;
+import br.com.thgbarros.bluetoothconnetion.communication.protocol.ElmProtocol;
 import br.com.thgbarros.bluetoothconnetion.communication.Protocol;
 
 import static br.com.barros.newbie.Bluetooth.BluetoothStatus.CONNECTED;
@@ -44,7 +46,7 @@ public class MainActivity extends ActionBarActivity
     private String deviceName;
     private BluetoothManager bluetoothManager;
     private Fragment actualFragment;
-    private Protocol protocol;
+    private CommunicationHandler communicationHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,8 @@ public class MainActivity extends ActionBarActivity
 
         try {
            bluetoothManager = BluetoothManager.getInstance(this);
-           protocol = ElmProtocol.getInstance(getDefaultHandler(), bluetoothManager);
+           communicationHandler = new CommunicationHandler(
+                            new ElmCommand(getDefaultHandler(), bluetoothManager));
         } catch (BluetoothException e) {
             e.printStackTrace();
         }
@@ -212,7 +215,7 @@ public class MainActivity extends ActionBarActivity
                 getString(R.string.string_please_wait), true, true);
 
         //Se iniciar retornará uma mensagem para o updateUI com message.wait = IN_COMMUNICATION;
-        protocol.startCommunication();
+        communicationHandler.init();
     }
 
     private void stopCommunication(){
