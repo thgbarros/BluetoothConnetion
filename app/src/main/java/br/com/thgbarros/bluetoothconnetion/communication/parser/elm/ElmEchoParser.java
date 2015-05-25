@@ -8,19 +8,20 @@ import br.com.thgbarros.bluetoothconnetion.communication.ProtocolParser;
  * Created by thiago on 23/05/15.
  */
 public class ElmEchoParser extends ElmParser {
-    private byte[] echo;
+    private final byte[] echo = {0x41, 0x54}; //AT
+    private byte[] value; ;
 
     @Override
     public void clear() {
         super.clear();
-        this.echo = new byte[0];
+        this.value = new byte[0];
     }
 
     @Override
     public byte[] getData() {
         byte[] result = new byte[0];
         if (dataValid)
-            copy(result, echo, getData());
+            copy(result, value, super.getData());
 
         return result;
     }
@@ -28,17 +29,15 @@ public class ElmEchoParser extends ElmParser {
     @Override
     public byte[] parse(byte[] request, byte[] response) {
         byte[] result = new byte[0];
+
         if (dataValid)
-            return super.parse(request, response);
+            return getData();
 
-        for (int i=0; i<request.length; i++){
-            dataValid = response[i]==response[i];
-            if (!dataValid)
-                return result;
-        }
+        dataValid = (response[0] == echo[0]) && (response[1]==echo[1]);
+        value = new byte[]{response[0], response[1]};
 
-        result = new byte[response.length - request.length];
-
+        if (!dataValid)
+            return getData();
 
         return super.parse(request, response);
     }

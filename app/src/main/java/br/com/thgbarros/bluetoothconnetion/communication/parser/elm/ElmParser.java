@@ -9,6 +9,8 @@ public class ElmParser implements ProtocolParser {
     private ProtocolParser nextParser;
     protected boolean dataValid;
 
+    protected final byte posDataParsed = (byte) 0xff;
+
     @Override
     public void next(ProtocolParser parser) {
         if (nextParser == null)
@@ -47,7 +49,7 @@ public class ElmParser implements ProtocolParser {
         return new byte[0];
     }
 
-    public byte[] copy(byte[] dest, byte[] ... src){
+    protected byte[] copy(byte[] dest, byte[] ... src){
         for (byte[] dataSrc: src)
             System.arraycopy(dataSrc, 0, dest, dest.length, dataSrc.length);
 
