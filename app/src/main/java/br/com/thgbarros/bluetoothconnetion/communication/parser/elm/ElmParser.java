@@ -1,5 +1,7 @@
 package br.com.thgbarros.bluetoothconnetion.communication.parser.elm;
 
+import java.util.Arrays;
+
 import br.com.thgbarros.bluetoothconnetion.communication.ProtocolParser;
 
 /**
@@ -29,6 +31,7 @@ public class ElmParser implements ProtocolParser {
 
     @Override
     public void clear() {
+        dataValid = false;
         if (nextParser != null)
             nextParser.clear();
     }
@@ -55,4 +58,8 @@ public class ElmParser implements ProtocolParser {
 
         return dest;
     }
-}
+
+    protected byte[] copy(byte[] source, int start, int lenght){
+        return Arrays.copyOfRange(source, start, lenght);
+    }
+ }
