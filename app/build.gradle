@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "br.com.thgbarros.bluetoothconnetion"
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -25,6 +25,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.beardedhen:androidbootstrap:+'
     compile project(':newbie')
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

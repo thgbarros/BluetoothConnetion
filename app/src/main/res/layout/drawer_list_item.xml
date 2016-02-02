@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/app_background_drawer">
+    android:background="@color/primary">
 
     <RelativeLayout android:layout_width="fill_parent"
         android:layout_height="48dp"

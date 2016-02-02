@@ -13,7 +13,7 @@ public class ElmCarriageReturnParser extends ElmParser {
     @Override
     public void clear() {
         super.clear();
-        value = new byte[];
+        value = new byte[0];
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ElmCarriageReturnParser extends ElmParser {
         }
 
 
-        dataValid = (response[0] == echo[0]) && (response[1]==echo[1]);
+        //dataValid = (response[0] == echo[0]) && (response[1]==echo[1]);
         value = new byte[]{response[0], response[1]};
 
         if (!dataValid)

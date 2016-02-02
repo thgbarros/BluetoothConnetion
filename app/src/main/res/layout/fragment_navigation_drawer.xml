@@ -4,5 +4,5 @@
     android:layout_height="fill_parent"
     android:choiceMode="singleChoice"
     android:divider="#CFCFCF"
-    android:background="@color/app_background_drawer"
+    android:background="@color/primary"
     android:dividerHeight="0.5dp"/>

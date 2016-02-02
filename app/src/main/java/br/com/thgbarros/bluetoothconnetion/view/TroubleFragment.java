@@ -1,9 +1,9 @@
 package br.com.thgbarros.bluetoothconnetion.view;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,7 +62,7 @@ public class TroubleFragment extends Fragment implements TabHost.OnTabChangeList
     }
 
     private void initializeViewPage(View view){
-        viewPageAdapter = new ViewPageAdapter(getActivity().getSupportFragmentManager(), getFragmentList());
+        viewPageAdapter = new ViewPageAdapter(getActivity().getFragmentManager(), getFragmentList());
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         viewPager.setAdapter(viewPageAdapter);
         viewPager.setCurrentItem(tabHost.getCurrentTab());
@@ -80,14 +80,14 @@ public class TroubleFragment extends Fragment implements TabHost.OnTabChangeList
         fragments.add(Fragment.instantiate(getActivity(), TroublePresentTabFragment.class.getName()));
         fragments.add(Fragment.instantiate(getActivity(), TroublePastTabFragment.class.getName()));
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
 
-        for (Fragment fragment : fragmentManager.getFragments()) {
-            if (fragment instanceof TroublePresentTabFragment || fragment instanceof TroublePastTabFragment) {
-                Log.d(LOG_TAG, "Detach [" + fragment + "]");
-                fragmentManager.beginTransaction().detach(fragment).commit();
-            }
-        }
+//        for (Fragment fragment : fragmentManager.getBackStackEntryCount()) {
+//            if (fragment instanceof TroublePresentTabFragment || fragment instanceof TroublePastTabFragment) {
+//                Log.d(LOG_TAG, "Detach [" + fragment + "]");
+//                fragmentManager.beginTransaction().detach(fragment).commit();
+//            }
+//        }
         return fragments;
     }
 

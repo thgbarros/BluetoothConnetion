@@ -2,16 +2,17 @@ package br.com.thgbarros.bluetoothconnetion.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +21,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.Toast;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import br.com.barros.newbie.Bluetooth.BluetoothManager;
 import br.com.barros.newbie.Bluetooth.Exceptions.BluetoothException;
@@ -32,8 +37,8 @@ import br.com.thgbarros.bluetoothconnetion.communication.Protocol;
 import static br.com.barros.newbie.Bluetooth.BluetoothStatus.CONNECTED;
 import static br.com.barros.newbie.Bluetooth.BluetoothStatus.getValueOf;
 
-public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks{
+public class MainActivity extends AppCompatActivity
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final int ITEM_SELECTED_READS = 1;
@@ -53,16 +58,16 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
-                                                        .findFragmentById(R.id.navigation_drawer);
+        mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
+                                            .findFragmentById(R.id.navigation_drawer);
 
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         try {
-           bluetoothManager = BluetoothManager.getInstance(this);
-           communicationHandler = new CommunicationHandler(
-                            new ElmCommand(getDefaultHandler(), bluetoothManager));
+            bluetoothManager = BluetoothManager.getInstance(this);
+            communicationHandler = new CommunicationHandler(
+                    new ElmCommand(getDefaultHandler(), bluetoothManager));
         } catch (BluetoothException e) {
             e.printStackTrace();
         }
@@ -70,9 +75,9 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
 
-        switch (position){
+        switch (position) {
             case ITEM_SELECTED_READS:
                 actualFragment = new ReadsFragment();
                 break;
@@ -93,12 +98,12 @@ public class MainActivity extends ActionBarActivity
         getMenuInflater().inflate(R.menu.global, menu);
         this.menu = menu;
 
-        if (bluetoothManager.isConnected()){
+        if (bluetoothManager.isConnected()) {
             MenuItem menuItem = menu.findItem(R.id.menu_connect_device);
             menuItem.setIcon(R.drawable.ic_connector_connected);
         }
 
-        if (bluetoothManager.inCommunication()){
+        if (bluetoothManager.inCommunication()) {
             MenuItem menuItem = menu.findItem(R.id.menu_init_comunication);
             menuItem.setIcon(R.drawable.ic_action_pause);
         }
@@ -112,7 +117,7 @@ public class MainActivity extends ActionBarActivity
             return true;
         }
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
@@ -137,7 +142,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case SettingsFragment.REQUEST_CONNECT_DEVICE:
                 switch (resultCode) {
                     case RESULT_OK:
@@ -157,7 +162,7 @@ public class MainActivity extends ActionBarActivity
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void bluetoothConnect(){
+    private void bluetoothConnect() {
         dialog = ProgressDialog.show(this, getString(R.string.string_connecting_device),
                 getString(R.string.string_please_wait), true, true);
 
@@ -184,7 +189,7 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    private void bluetoothDisconnect(){
+    private void bluetoothDisconnect() {
         MenuItem menuItem = menu.findItem(R.id.menu_connect_device);
         menuItem.setIcon(R.drawable.ic_connector);
 
@@ -193,21 +198,22 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.updateDeviceStatus();
     }
 
-    private void initCommunication(){
-        if (!bluetoothManager.isConnected()){
+    private void initCommunication() {
+        if (!bluetoothManager.isConnected()) {
             new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.string_alert_warning))
-                .setMessage(getString(R.string.string_alert_device_not_connected_retry))
-                .setPositiveButton(getString(R.string.string_alert_button_yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        bluetoothConnect();
-                    }
-                })
-                .setNegativeButton(getString(R.string.string_alert_button_no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                }).create().show();
+                    .setTitle(getString(R.string.string_alert_warning))
+                    .setMessage(getString(R.string.string_alert_device_not_connected_retry))
+                    .setPositiveButton(getString(R.string.string_alert_button_yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            bluetoothConnect();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.string_alert_button_no), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).create().show();
             return;
         }
 
@@ -218,13 +224,13 @@ public class MainActivity extends ActionBarActivity
         communicationHandler.init();
     }
 
-    private void stopCommunication(){
+    private void stopCommunication() {
         MenuItem menuItem = menu.findItem(R.id.menu_init_comunication);
         menuItem.setIcon(R.drawable.ic_action_play);
         bluetoothManager.stopCommunication();
     }
 
-    public Handler getDefaultHandler(){
+    public Handler getDefaultHandler() {
         if (handler == null) {
             handler = new Handler() {
                 public void handleMessage(Message msg) {
@@ -235,11 +241,11 @@ public class MainActivity extends ActionBarActivity
         return handler;
     }
 
-    private void updateUI(Message msg){
+    private void updateUI(Message msg) {
         MenuItem menuItemConnector = menu.findItem(R.id.menu_connect_device);
         MenuItem menuItemInitCommunication = menu.findItem(R.id.menu_init_comunication);
 
-        switch (getValueOf(msg.what)){
+        switch (getValueOf(msg.what)) {
             case CONNECTED:
                 dialog.dismiss();
                 mNavigationDrawerFragment.updateDeviceStatus();
@@ -261,6 +267,16 @@ public class MainActivity extends ActionBarActivity
                 MenuItem menuItem = menu.findItem(R.id.menu_init_comunication);
                 menuItem.setIcon(R.drawable.ic_action_pause);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     public static class PlaceholderFragment extends Fragment {

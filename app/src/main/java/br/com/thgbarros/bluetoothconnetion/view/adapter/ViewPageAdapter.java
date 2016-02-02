@@ -1,7 +1,8 @@
 package br.com.thgbarros.bluetoothconnetion.view.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
@@ -20,11 +21,13 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
         this.fragments = fragments;
     }
 
-    @Override
-    public Fragment getItem(int i) {
-        Log.d(LOG_TAG, "Attach [" + fragments.get(i) + "]");
-        return fragments.get(i);
-    }
+
+
+//    @Override
+//    public Fragment getItem(int i) {
+//        Log.d(LOG_TAG, "Attach [" + fragments.get(i) + "]");
+//        return fragments.get(i);
+//    }
 
     @Override
     public int getCount() {
